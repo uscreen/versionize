@@ -4,6 +4,9 @@
   "description": "opinionated package versioner",
   "main": "index.js",
   "type": "module",
+  "bin": {
+    "versionize": "./bin/cli.js"
+  },
   "author": "Martin Herting <herting@uscreen.de>",
   "license": "MIT",
   "engines": {
@@ -24,6 +27,12 @@
     "husky": ">=8.0.2",
     "lint-staged": ">=13.0.3",
     "tap": "^16.3.2"
+  },
+  "dependencies": {
+    "commander": "^10.0.0",
+    "pkg-dir": "^7.0.0",
+    "semver": "^7.5.1",
+    "tempy": "^3.0.0"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
