@@ -2,6 +2,10 @@
 
 > opinionated package versioner
 
+## Prerequisites
+
+- `node` v16 or higher
+
 ---
 
 ## License
