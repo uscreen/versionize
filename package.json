@@ -1,0 +1,9 @@
+{
+  "name": "@uscreen.de/versionize",
+  "version": "0.0.0",
+  "description": "opinionated package versioner",
+  "main": "index.js",
+  "type": "module",
+  "author": "Martin Herting <herting@uscreen.de>",
+  "license": "MIT"
+}
