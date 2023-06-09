@@ -2,7 +2,7 @@
   "name": "@uscreen.de/versionize",
   "version": "0.0.0",
   "description": "opinionated package versioner",
-  "main": "index.js",
+  "main": "src/index.js",
   "type": "module",
   "bin": {
     "versionize": "./bin/cli.js"

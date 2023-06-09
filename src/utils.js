@@ -9,7 +9,7 @@ export const error = (e) => {
   process.exit(e.code || 1)
 }
 
-const readFromPackageFile = (src) => {
+export const readFromPackageFile = (src) => {
   if (!fs.existsSync(src)) return null
 
   const content = fs.readFileSync(src, { encoding: 'utf-8' })
