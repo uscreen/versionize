@@ -3,7 +3,7 @@
 import { Argument, Command } from 'commander'
 import { createRequire } from 'module'
 
-import { versionize, error } from '../src/utils.js'
+import { versionize, info, error } from '../src/utils.js'
 
 const require = createRequire(import.meta.url)
 const program = new Command()
@@ -18,7 +18,9 @@ const { version } = require('../package.json')
  */
 const versionizeAction = (incType) => {
   try {
-    versionize(incType)
+    const version = versionize(incType)
+
+    info(`Updated version to ${version}`)
   } catch (e) {
     error(e)
   }

@@ -4,8 +4,12 @@ import { packageDirectorySync } from 'pkg-dir'
 import chalk from 'chalk'
 import semver from 'semver'
 
+export const info = (message) => {
+  console.error(`${chalk.blue('Info')} ${message}\n`)
+}
+
 export const error = (e) => {
-  console.error(chalk.red(`ERROR: ${e.message}\n`))
+  console.error(`${chalk.red('Error')} ${e.message}\n`)
   process.exit(e.code || 1)
 }
 
@@ -88,4 +92,6 @@ export const versionize = (incType, { cwd } = {}) => {
 
   writeToPackageFile(pkgPath, pkg)
   writeToPackageFile(mftPath, mft)
+
+  return newVersions.mft
 }
