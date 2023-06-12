@@ -43,6 +43,11 @@ const myVersion = getCurrentVersion()
 
 > Format according to https://keepachangelog.com
 
+### v0.2.0
+
+#### Added
+- give feedback about new version
+
 ### v0.1.0
 
 #### Added
