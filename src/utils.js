@@ -66,32 +66,51 @@ export const incrementVersions = (versions, releaseType) => {
   throw Error('Invalid releaseType')
 }
 
-export const versionize = (releaseType, { cwd } = {}) => {
+const readPackagesAndVersions = ({ cwd } = {}) => {
   const dir = packageDirectorySync({ cwd })
   if (!dir) throw Error('Not in package directory')
 
-  const pkgPath = path.join(dir, 'package.json')
-  const mftPath = path.join(dir, 'manifest.json')
+  const paths = {
+    pkg: path.join(dir, 'package.json'),
+    mft: path.join(dir, 'manifest.json')
+  }
 
-  const pkg = readFromPackageFile(pkgPath)
-  const mft = readFromPackageFile(mftPath) || {}
+  const data = {
+    pkg: readFromPackageFile(paths.pkg),
+    mft: readFromPackageFile(paths.mft) || {}
+  }
 
-  if (!pkg) throw Error('package.json not found')
+  if (!data.pkg) throw Error('package.json not found')
 
   const versions = {
-    pkg: pkg.version,
-    mft: mft.version
+    pkg: data.pkg.version,
+    mft: data.mft.version
   }
 
   sanitizeVersions(versions)
 
+  return { versions, paths, data }
+}
+
+const writePackagesAndVersions = ({ versions, paths, data }) => {
+  data.pkg.version = versions.pkg
+  data.mft.version = versions.mft
+
+  writeToPackageFile(paths.pkg, data.pkg)
+  writeToPackageFile(paths.mft, data.mft)
+}
+
+export const versionize = (releaseType, { cwd } = {}) => {
+  const { versions, paths, data } = readPackagesAndVersions({ cwd })
+
   const newVersions = incrementVersions(versions, releaseType)
-
-  pkg.version = newVersions.pkg
-  mft.version = newVersions.mft
-
-  writeToPackageFile(pkgPath, pkg)
-  writeToPackageFile(mftPath, mft)
+  writePackagesAndVersions({ versions: newVersions, paths, data })
 
   return newVersions.mft
+}
+
+export const getCurrentVersion = ({ cwd } = {}) => {
+  const { versions } = readPackagesAndVersions({ cwd })
+
+  return versions.mft
 }
