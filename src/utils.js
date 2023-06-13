@@ -106,7 +106,7 @@ export const versionize = (releaseType, { cwd } = {}) => {
   const newVersions = incrementVersions(versions, releaseType)
   writePackagesAndVersions({ versions: newVersions, paths, data })
 
-  return newVersions.mft
+  return { currentVersion: versions.mft, newVersion: newVersions.mft }
 }
 
 export const getCurrentVersion = ({ cwd } = {}) => {

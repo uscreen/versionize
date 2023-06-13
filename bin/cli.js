@@ -22,8 +22,9 @@ const versionizeAction = (releaseType) => {
       const version = getCurrentVersion()
       info(`Current version is ${version}`)
     } else {
-      const version = versionize(releaseType)
-      info(`New version to ${version}`)
+      const { currentVersion, newVersion } = versionize(releaseType)
+      info(`Current version is ${currentVersion}`)
+      info(`New version to ${newVersion}`)
     }
   } catch (e) {
     error(e)
