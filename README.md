@@ -43,6 +43,15 @@ const myVersion = getCurrentVersion()
 
 > Format according to https://keepachangelog.com
 
+### v0.3.0
+#### Added
+- show current version when calling calling versionize without arguments
+
+#### Changed
+- give feedback about current version, too
+- small ui changes
+- refactoring
+
 ### v0.2.0
 
 #### Added
