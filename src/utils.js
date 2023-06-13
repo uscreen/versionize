@@ -5,11 +5,11 @@ import chalk from 'chalk'
 import semver from 'semver'
 
 export const info = (message) => {
-  console.error(`${chalk.blue('Info')} ${message}\n`)
+  console.error(`${chalk.blue('info')} ${message}`)
 }
 
 export const error = (e) => {
-  console.error(`${chalk.red('Error')} ${e.message}\n`)
+  console.error(`${chalk.red('error')} ${e.message}`)
   process.exit(e.code || 1)
 }
 
