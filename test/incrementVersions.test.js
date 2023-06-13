@@ -1,25 +1,25 @@
 import tap from 'tap'
 import { sanitizeVersions, incrementVersions } from '../src/utils.js'
 
-const increase = (packageVersion, manifestVersion, incType) => {
+const increment = (packageVersion, manifestVersion, releaseType) => {
   const versions = {
     pkg: packageVersion,
     mft: manifestVersion
   }
   sanitizeVersions(versions)
-  return incrementVersions(versions, incType)
+  return incrementVersions(versions, releaseType)
 }
 
 const testRun = async (
   t,
   packageVersion,
   manifestVersion,
-  incType,
+  releaseType,
   expectedPackageVersion,
   expectedManifestVersion
 ) => {
-  const vs = increase(packageVersion, manifestVersion, incType)
-  return t.test(`Calling <${incType}>...`, async (t) => {
+  const vs = increment(packageVersion, manifestVersion, releaseType)
+  return t.test(`Calling <${releaseType}>...`, async (t) => {
     t.equal(
       vs.pkg,
       expectedPackageVersion,
@@ -39,30 +39,30 @@ const testRunConflict = async (
   t,
   packageVersion,
   manifestVersion,
-  incType,
+  releaseType,
   expectedError
 ) => {
   return t.test(
-    `Calling <${incType}> on ${packageVersion || 'empty'} [${
+    `Calling <${releaseType}> on ${packageVersion || 'empty'} [${
       manifestVersion || 'empty'
     }]...`,
     async (t) => {
       let error = null
       let vs = null
       try {
-        vs = increase(packageVersion, manifestVersion, incType)
+        vs = increment(packageVersion, manifestVersion, releaseType)
       } catch (e) {
         error = e
       }
       t.ok(error, 'An error was thrown')
       t.same(error.message, expectedError, 'Error message ok')
-      t.notOk(vs, 'Versions were not increased')
+      t.notOk(vs, 'Versions were not incremented')
     }
   )
 }
 
 const working = [
-  // increase version by 'latest' on multiple consistent version sets:
+  // increment version by 'latest' on multiple consistent version sets:
   ['0.0.0', null, 'latest', '0.0.0', '0.1.0-0'],
   ['0.0.0', '0.0.0', 'latest', '0.0.0', '0.1.0-0'],
   ['0.0.0', '0.1.0-0', 'latest', '0.0.0', '0.1.0-1'],
@@ -71,7 +71,7 @@ const working = [
   ['0.1.1', '0.1.1', 'latest', '0.1.1', '0.2.0-0'],
   ['0.1.1', '0.2.0-0', 'latest', '0.1.1', '0.2.0-1'],
 
-  // increase version by 'stable' on multiple consistent version sets:
+  // increment version by 'stable' on multiple consistent version sets:
   ['0.0.0', null, 'stable', '0.1.0', '0.1.0'],
   ['0.0.0', '0.0.0', 'stable', '0.1.0', '0.1.0'],
   ['0.0.0', '0.1.0-0', 'stable', '0.1.0', '0.1.0'],
@@ -80,7 +80,7 @@ const working = [
   ['0.1.1', '0.1.1', 'stable', '0.2.0', '0.2.0'],
   ['0.1.1', '0.2.0-0', 'stable', '0.2.0', '0.2.0'],
 
-  // increase version by 'hotfix' on multiple consistent version sets:
+  // increment version by 'hotfix' on multiple consistent version sets:
   ['0.0.0', null, 'hotfix', '0.0.1', '0.0.1'],
   ['0.0.0', '0.0.0', 'hotfix', '0.0.1', '0.0.1'],
   ['0.0.0', '0.1.0-0', 'hotfix', '0.0.1', '0.0.1'],
@@ -89,7 +89,7 @@ const working = [
   ['0.1.1', '0.1.1', 'hotfix', '0.1.2', '0.1.2'],
   ['0.1.1', '0.2.0-0', 'hotfix', '0.1.2', '0.1.2'],
 
-  // increase version on some minimally inconsistent version sets:
+  // increment version on some minimally inconsistent version sets:
   ['0.1.0', '0.1.1-0', 'latest', '0.1.0', '0.1.1-1'],
   ['0.1.0', '0.1.1-1', 'latest', '0.1.0', '0.1.1-2'],
   ['0.1.0', '0.1.1-0', 'stable', '0.2.0', '0.2.0'],
@@ -98,7 +98,7 @@ const working = [
   ['0.1.0', '0.1.1-1', 'hotfix', '0.1.1', '0.1.1']
 ]
 
-// increase version on more inconsistent version sets:
+// increment version on more inconsistent version sets:
 const conflicts = [
   [null, '0.0.0', 'latest', 'Could not read version from package.json'],
   [null, '0.0.0', 'stable', 'Could not read version from package.json'],
@@ -144,13 +144,13 @@ const conflicts = [
   ]
 ]
 
-tap.test('Increasing given consistent versions', async (t) => {
+tap.test('Incrementing given consistent versions', async (t) => {
   for (const test of working) {
     testRun(t, ...test)
   }
 })
 
-tap.test('Increasing given inconsistent versions', async (t) => {
+tap.test('Incrementing given inconsistent versions', async (t) => {
   for (const test of conflicts) {
     testRunConflict(t, ...test)
   }

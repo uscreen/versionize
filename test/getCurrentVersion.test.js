@@ -19,7 +19,7 @@ tap.test('Get current version', async (t) => {
     fs.rmSync(CWD, { recursive: true })
   })
 
-  t.test('From directory without package.json & manifest.json', async (t) => {
+  t.test('From directory without package.json and manifest.json', async (t) => {
     let version = null
     let error = null
     try {
@@ -33,7 +33,7 @@ tap.test('Get current version', async (t) => {
   })
 
   t.test(
-    'From directory without version in package.json & manifest.json',
+    'From directory without version in package.json and manifest.json',
     async (t) => {
       writeJSON(CWD, 'package.json', {})
       writeJSON(CWD, 'manifest.json', {})
@@ -62,7 +62,7 @@ tap.test('Get current version', async (t) => {
   )
 
   t.test(
-    'From directory with version in package.json & no version in manifest.json',
+    'From directory with version in package.json and no version in manifest.json',
     async (t) => {
       writeJSON(CWD, 'package.json', { version: '0.3.0' })
       writeJSON(CWD, 'manifest.json', {})
@@ -73,7 +73,7 @@ tap.test('Get current version', async (t) => {
   )
 
   t.test(
-    'From directory with versions in package.json & manifest.json',
+    'From directory with versions in package.json and manifest.json',
     async (t) => {
       writeJSON(CWD, 'package.json', { version: '0.3.0' })
       writeJSON(CWD, 'manifest.json', { version: '0.4.0-2' })

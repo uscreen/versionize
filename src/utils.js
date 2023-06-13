@@ -47,26 +47,26 @@ export const sanitizeVersions = (versions) => {
   throw Error('Versions in package.json and manifest.json are inconsistent')
 }
 
-export const incrementVersions = (versions, incType) => {
-  if (incType === 'stable') {
+export const incrementVersions = (versions, releaseType) => {
+  if (releaseType === 'stable') {
     const result = semver.inc(versions.pkg, 'minor')
     return { pkg: result, mft: result }
   }
-  if (incType === 'hotfix') {
+  if (releaseType === 'hotfix') {
     const result = semver.inc(versions.pkg, 'patch')
     return { pkg: result, mft: result }
   }
-  if (incType === 'latest') {
+  if (releaseType === 'latest') {
     const release = semver.prerelease(versions.mft) ? 'prerelease' : 'preminor'
 
     const result = semver.inc(versions.mft, release)
     return { pkg: versions.pkg, mft: result }
   }
 
-  throw Error('Invalid incType')
+  throw Error('Invalid releaseType')
 }
 
-export const versionize = (incType, { cwd } = {}) => {
+export const versionize = (releaseType, { cwd } = {}) => {
   const dir = packageDirectorySync({ cwd })
   if (!dir) throw Error('Not in package directory')
 
@@ -85,7 +85,7 @@ export const versionize = (incType, { cwd } = {}) => {
 
   sanitizeVersions(versions)
 
-  const newVersions = incrementVersions(versions, incType)
+  const newVersions = incrementVersions(versions, releaseType)
 
   pkg.version = newVersions.pkg
   mft.version = newVersions.mft

@@ -16,11 +16,11 @@ const { version } = require('../package.json')
 /**
  * catch errors, if any
  */
-const versionizeAction = (incType) => {
+const versionizeAction = (releaseType) => {
   try {
-    const version = versionize(incType)
+    const version = versionize(releaseType)
 
-    info(`Updated version to ${version}`)
+    info(`New version to ${version}`)
   } catch (e) {
     error(e)
   }
@@ -34,7 +34,7 @@ program
   .description('CLI to versionize packages according to semver')
   .version(version)
   .addArgument(
-    new Argument('<incType>', 'type of version increase').choices([
+    new Argument('<releaseType>', 'determines new version').choices([
       'latest',
       'stable',
       'hotfix'
