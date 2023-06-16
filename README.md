@@ -43,6 +43,10 @@ const myVersion = getCurrentVersion()
 
 > Format according to https://keepachangelog.com
 
+### v0.4.0
+#### Added
+- cli option for raw output
+
 ### v0.3.0
 #### Added
 - show current version when calling calling versionize without arguments
