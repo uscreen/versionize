@@ -22,11 +22,24 @@ $ yarn add -D @uscreen.de/versionize
 $ versionize latest // => increments (minor) pre-release version
 $ versionize stable // => increments minor version
 $ versionize hotfix // => increments patch version
+$ versionize        // => outputs current version
 ```
 
-Versions are written into *package.json* and *manifest.json*. The *package.json* always contains the current stable release version. The *manifest.json* contains the current pre-release version, if given, otherwise also the current stable release version.
+Versions are written into `package.json` and `manifest.json`. The `package.json` always contains the current stable release version. The `manifest.json` contains the current pre-release version, if given, otherwise also the current stable release version.
 
-The package exposes the method `getCurrentVersion` so you could get the current version inside of your project like this:
+### Options
+
+#### Raw output
+
+If you want to use versionize's output for shell scripts or similar, use the option `--raw`. Instead of the default output, versionize will only write the new version to stdout, without any pretty printing.
+
+#### Commit & tag via Git
+
+if used with option `--tag`, versionize will automatically commit the changes it made to `package.json` and `manifest.json` and tag the commit with the new version. You need a working `git` binary in your `PATH`.
+
+### JavaScript
+
+The package also exposes the method `getCurrentVersion` so you could get the current version inside of your project like this:
 
 ```javascript
 import { getCurrentVersion } from '@uscreen.de/versionize'
@@ -42,6 +55,10 @@ const myVersion = getCurrentVersion()
 ## Changelog
 
 > Format according to https://keepachangelog.com
+
+### v0.5.0
+#### Added
+- cli option to commit changes to git and tag new commit
 
 ### v0.4.0
 #### Added
