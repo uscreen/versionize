@@ -28,7 +28,7 @@ const versionizeAction = (releaseType, { raw = false }) => {
       if (raw) return console.log(newVersion)
 
       info(`Current version is ${currentVersion}`)
-      info(`New version to ${newVersion}`)
+      info(`New version is ${newVersion}`)
     }
   } catch (e) {
     error(e)

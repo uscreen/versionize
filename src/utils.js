@@ -5,7 +5,7 @@ import chalk from 'chalk'
 import semver from 'semver'
 
 export const info = (message) => {
-  console.error(`${chalk.blue('info')} ${message}`)
+  console.log(`${chalk.blue('info')} ${message}`)
 }
 
 export const error = (e) => {
