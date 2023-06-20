@@ -3,7 +3,13 @@
 import { Argument, Command, Option } from 'commander'
 import { createRequire } from 'module'
 
-import { getCurrentVersion, versionize, info, error } from '../src/utils.js'
+import {
+  getCurrentVersion,
+  versionize,
+  info,
+  error,
+  tryCommitAndTag
+} from '../src/utils.js'
 
 const require = createRequire(import.meta.url)
 const program = new Command()
@@ -16,7 +22,7 @@ const { version } = require('../package.json')
 /**
  * catch errors, if any
  */
-const versionizeAction = (releaseType, { raw = false }) => {
+const versionizeAction = (releaseType, { raw = false, tag = false }) => {
   try {
     if (!releaseType) {
       const version = getCurrentVersion()
@@ -24,7 +30,10 @@ const versionizeAction = (releaseType, { raw = false }) => {
 
       info(`Current version is ${version}`)
     } else {
-      const { currentVersion, newVersion } = versionize(releaseType)
+      const { currentVersion, newVersion, files } = versionize(releaseType)
+
+      if (tag) tryCommitAndTag(newVersion, files)
+
       if (raw) return console.log(newVersion)
 
       info(`Current version is ${currentVersion}`)
@@ -48,6 +57,7 @@ program
       'determines new version. If not given, current version will be displayed'
     ).choices(['latest', 'stable', 'hotfix'])
   )
+  .addOption(new Option('--tag', 'commit changes to git and tag new commit'))
   .addOption(new Option('--raw', 'raw output'))
   .action(versionizeAction)
 

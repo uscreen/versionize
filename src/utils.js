@@ -3,9 +3,14 @@ import path from 'path'
 import { packageDirectorySync } from 'pkg-dir'
 import chalk from 'chalk'
 import semver from 'semver'
+import { execSync } from 'child_process'
 
 export const info = (message) => {
   console.log(`${chalk.blue('info')} ${message}`)
+}
+
+export const warn = (message) => {
+  console.error(`${chalk.yellow('warning')} ${message}`)
 }
 
 export const error = (e) => {
@@ -100,13 +105,35 @@ const writePackagesAndVersions = ({ versions, paths, data }) => {
   writeToPackageFile(paths.mft, data.mft)
 }
 
+const tryGit = (args = []) => {
+  try {
+    execSync(`git ${args.join(' ')}`, { stdio: 'ignore' })
+    return true
+  } catch (e) {
+    warn(`Could not \`git ${args[0]}\``)
+    return false
+  }
+}
+
+export const tryCommitAndTag = (tag, files) => {
+  return (
+    tryGit(['add', ...files]) &&
+    tryGit(['commit', '-m', tag]) &&
+    tryGit(['tag', tag, 'HEAD'])
+  )
+}
+
 export const versionize = (releaseType, { cwd } = {}) => {
   const { versions, paths, data } = readPackagesAndVersions({ cwd })
 
   const newVersions = incrementVersions(versions, releaseType)
   writePackagesAndVersions({ versions: newVersions, paths, data })
 
-  return { currentVersion: versions.mft, newVersion: newVersions.mft }
+  return {
+    currentVersion: versions.mft,
+    newVersion: newVersions.mft,
+    files: Object.values(paths)
+  }
 }
 
 export const getCurrentVersion = ({ cwd } = {}) => {
