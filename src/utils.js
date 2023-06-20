@@ -67,8 +67,8 @@ export const incrementVersions = (versions, releaseType) => {
     const result = semver.inc(versions.mft, release)
     return { pkg: versions.pkg, mft: result }
   }
-
-  throw Error('Invalid releaseType')
+  /* c8 ignore next */
+  throw Error('Invalid releaseType') // this should never happen
 }
 
 const readPackagesAndVersions = ({ cwd } = {}) => {
@@ -84,8 +84,8 @@ const readPackagesAndVersions = ({ cwd } = {}) => {
     pkg: readFromPackageFile(paths.pkg),
     mft: readFromPackageFile(paths.mft) || {}
   }
-
-  if (!data.pkg) throw Error('package.json not found')
+  /* c8 ignore next */
+  if (!data.pkg) throw Error('package.json not found') // this should never happen
 
   const versions = {
     pkg: data.pkg.version,
