@@ -1,6 +1,6 @@
 {
   "name": "@uscreen.de/versionize",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "opinionated package versioner",
   "main": "src/index.js",
   "type": "module",
