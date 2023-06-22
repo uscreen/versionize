@@ -121,7 +121,7 @@ tap.test('CLI', async (t) => {
     t.equal(mft.version, '0.4.0-3', 'does increment version in manifest.json')
 
     const buffer = execSync('git describe --tags', { cwd: CWD })
-    t.equal(buffer.toString(), '0.4.0-3\n', 'has set correct git tag')
+    t.equal(buffer.toString(), 'v0.4.0-3\n', 'has set correct git tag')
   })
 
   t.test('$ versionize stable', async (t) => {
@@ -171,7 +171,7 @@ tap.test('CLI', async (t) => {
     t.equal(mft.version, '0.4.0', 'does increment version in manifest.json')
 
     const buffer = execSync('git describe --tags', { cwd: CWD })
-    t.equal(buffer.toString(), '0.4.0\n', 'has set correct git tag')
+    t.equal(buffer.toString(), 'v0.4.0\n', 'has set correct git tag')
   })
 
   t.test('$ versionize hotfix', async (t) => {
@@ -221,7 +221,7 @@ tap.test('CLI', async (t) => {
     t.equal(mft.version, '0.3.1', 'does increment version in manifest.json')
 
     const buffer = execSync('git describe --tags', { cwd: CWD })
-    t.equal(buffer.toString(), '0.3.1\n', 'has set correct git tag')
+    t.equal(buffer.toString(), 'v0.3.1\n', 'has set correct git tag')
   })
 
   t.test('$ versionize hotfix --tag', async (t) => {
@@ -241,6 +241,6 @@ tap.test('CLI', async (t) => {
     t.equal(mft.version, '0.3.1', 'does increment version in manifest.json')
 
     const buffer = execSync('git describe --tags', { cwd: CWD })
-    t.equal(buffer.toString(), '0.3.1\n', 'has set correct git tag')
+    t.equal(buffer.toString(), 'v0.3.1\n', 'has set correct git tag')
   })
 })
