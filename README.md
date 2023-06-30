@@ -35,7 +35,9 @@ If you want to use versionize's output for shell scripts or similar, use the opt
 
 #### Commit & tag via Git
 
-if used with option `--tag`, versionize will automatically commit the changes it made to `package.json` and `manifest.json` and tag the commit with the new version. You need a working `git` binary in your `PATH`.
+If used with option `--commit`, versionize will automatically commit the changes it made to `package.json` and `manifest.json`. If used with option `--tag`, versionize will additionally tag the automatic commit with the new version.
+
+You need a working `git` binary in your `PATH`.
 
 ### JavaScript
 
@@ -55,6 +57,10 @@ const myVersion = getCurrentVersion()
 ## Changelog
 
 > Format according to https://keepachangelog.com
+
+### v0.6.0
+#### Added
+- cli option to commit changes to git without tag
 
 ### v0.5.0
 #### Added
