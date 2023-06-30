@@ -104,6 +104,29 @@ tap.test('CLI', async (t) => {
     t.equal(mft.version, '0.4.0-3', 'does increment version in manifest.json')
   })
 
+  t.test('$ versionize latest --commit', async (t) => {
+    const result = await cli(['latest', '--commit'], CWD)
+    t.equal(result.code, 0, 'code 0')
+    t.equal(result.stderr, '', 'no stderr')
+    t.equal(
+      result.stdout,
+      'info Current version is 0.4.0-2\ninfo New version is 0.4.0-3\n',
+      'expected stdout'
+    )
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    t.equal(pkg.version, '0.3.0', 'does not increment version in package.json')
+    t.equal(mft.version, '0.4.0-3', 'does increment version in manifest.json')
+
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    t.equal(commitBuffer.toString(), 'v0.4.0-3\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    t.equal(tagsBuffer.toString(), '', 'has not set git tag')
+  })
+
   t.test('$ versionize latest --tag', async (t) => {
     const result = await cli(['latest', '--tag'], CWD)
     t.equal(result.code, 0, 'code 0')
@@ -120,8 +143,11 @@ tap.test('CLI', async (t) => {
     t.equal(pkg.version, '0.3.0', 'does not increment version in package.json')
     t.equal(mft.version, '0.4.0-3', 'does increment version in manifest.json')
 
-    const buffer = execSync('git describe --tags', { cwd: CWD })
-    t.equal(buffer.toString(), 'v0.4.0-3\n', 'has set correct git tag')
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    t.equal(commitBuffer.toString(), 'v0.4.0-3\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    t.equal(tagsBuffer.toString(), 'v0.4.0-3\n', 'has set correct git tag')
   })
 
   t.test('$ versionize stable', async (t) => {
@@ -154,6 +180,29 @@ tap.test('CLI', async (t) => {
     t.equal(mft.version, '0.4.0', 'does increment version in manifest.json')
   })
 
+  t.test('$ versionize stable --commit', async (t) => {
+    const result = await cli(['stable', '--commit'], CWD)
+    t.equal(result.code, 0, 'code 0')
+    t.equal(result.stderr, '', 'no stderr')
+    t.equal(
+      result.stdout,
+      'info Current version is 0.4.0-2\ninfo New version is 0.4.0\n',
+      'expected stdout'
+    )
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    t.equal(pkg.version, '0.4.0', 'does increment version in package.json')
+    t.equal(mft.version, '0.4.0', 'does increment version in manifest.json')
+
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    t.equal(commitBuffer.toString(), 'v0.4.0\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    t.equal(tagsBuffer.toString(), '', 'has not set git tag')
+  })
+
   t.test('$ versionize stable --tag', async (t) => {
     const result = await cli(['stable', '--tag'], CWD)
     t.equal(result.code, 0, 'code 0')
@@ -170,8 +219,11 @@ tap.test('CLI', async (t) => {
     t.equal(pkg.version, '0.4.0', 'does increment version in package.json')
     t.equal(mft.version, '0.4.0', 'does increment version in manifest.json')
 
-    const buffer = execSync('git describe --tags', { cwd: CWD })
-    t.equal(buffer.toString(), 'v0.4.0\n', 'has set correct git tag')
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    t.equal(commitBuffer.toString(), 'v0.4.0\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    t.equal(tagsBuffer.toString(), 'v0.4.0\n', 'has set correct git tag')
   })
 
   t.test('$ versionize hotfix', async (t) => {
@@ -204,8 +256,8 @@ tap.test('CLI', async (t) => {
     t.equal(mft.version, '0.3.1', 'does increment version in manifest.json')
   })
 
-  t.test('$ versionize hotfix --tag', async (t) => {
-    const result = await cli(['hotfix', '--tag'], CWD)
+  t.test('$ versionize hotfix --commit', async (t) => {
+    const result = await cli(['hotfix', '--commit'], CWD)
     t.equal(result.code, 0, 'code 0')
     t.equal(result.stderr, '', 'no stderr')
     t.equal(
@@ -220,8 +272,11 @@ tap.test('CLI', async (t) => {
     t.equal(pkg.version, '0.3.1', 'does increment version in package.json')
     t.equal(mft.version, '0.3.1', 'does increment version in manifest.json')
 
-    const buffer = execSync('git describe --tags', { cwd: CWD })
-    t.equal(buffer.toString(), 'v0.3.1\n', 'has set correct git tag')
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    t.equal(commitBuffer.toString(), 'v0.3.1\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    t.equal(tagsBuffer.toString(), '', 'has not set git tag')
   })
 
   t.test('$ versionize hotfix --tag', async (t) => {
@@ -240,7 +295,10 @@ tap.test('CLI', async (t) => {
     t.equal(pkg.version, '0.3.1', 'does increment version in package.json')
     t.equal(mft.version, '0.3.1', 'does increment version in manifest.json')
 
-    const buffer = execSync('git describe --tags', { cwd: CWD })
-    t.equal(buffer.toString(), 'v0.3.1\n', 'has set correct git tag')
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    t.equal(commitBuffer.toString(), 'v0.3.1\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    t.equal(tagsBuffer.toString(), 'v0.3.1\n', 'has set correct git tag')
   })
 })

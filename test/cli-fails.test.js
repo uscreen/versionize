@@ -47,6 +47,39 @@ tap.test('CLI Fails', async (t) => {
   })
 
   t.test(
+    '$ versionize latest --commit, but with inconsistent versions',
+    async (t) => {
+      writeJSON(CWD, 'package.json', { version: '0.3.0' })
+      writeJSON(CWD, 'manifest.json', { version: '0.5.0-2' })
+
+      const result = await cli(['latest', '--commit'], CWD)
+      t.not(result.code, 0, 'code !== 0')
+      t.equal(
+        result.stderr,
+        'error Versions in package.json and manifest.json are inconsistent\n',
+        'expected stderr'
+      )
+      t.equal(result.stdout, '', 'expected stdout')
+    }
+  )
+  t.test(
+    '$ versionize latest --commit, but without git repository',
+    async (t) => {
+      writeJSON(CWD, 'package.json', { version: '0.3.0' })
+      writeJSON(CWD, 'manifest.json', { version: '0.4.0-2' })
+
+      const result = await cli(['latest', '--commit'], CWD)
+      t.equal(result.code, 0, 'code 0')
+      t.equal(result.stderr, 'warning Could not `git add`\n', 'expected stderr')
+      t.equal(
+        result.stdout,
+        'info Current version is 0.4.0-2\ninfo New version is 0.4.0-3\n',
+        'expected stdout'
+      )
+    }
+  )
+
+  t.test(
     '$ versionize latest --tag, but with inconsistent versions',
     async (t) => {
       writeJSON(CWD, 'package.json', { version: '0.3.0' })
