@@ -115,6 +115,11 @@ const tryGit = (args = []) => {
   }
 }
 
+export const tryCommit = (version, files) => {
+  const tag = `v${version}`
+  return tryGit(['add', ...files]) && tryGit(['commit', '-m', tag])
+}
+
 export const tryCommitAndTag = (version, files) => {
   const tag = `v${version}`
   return (

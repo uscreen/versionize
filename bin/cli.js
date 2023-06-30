@@ -8,6 +8,7 @@ import {
   versionize,
   info,
   error,
+  tryCommit,
   tryCommitAndTag
 } from '../src/utils.js'
 
@@ -22,7 +23,10 @@ const { version } = require('../package.json')
 /**
  * catch errors, if any
  */
-const versionizeAction = (releaseType, { raw = false, tag = false }) => {
+const versionizeAction = (
+  releaseType,
+  { raw = false, commit = false, tag = false }
+) => {
   try {
     if (!releaseType) {
       const version = getCurrentVersion()
@@ -32,6 +36,7 @@ const versionizeAction = (releaseType, { raw = false, tag = false }) => {
     } else {
       const { currentVersion, newVersion, files } = versionize(releaseType)
 
+      if (commit) tryCommit(newVersion, files)
       if (tag) tryCommitAndTag(newVersion, files)
 
       if (raw) return console.log(newVersion)
@@ -57,6 +62,7 @@ program
       'determines new version. If not given, current version will be displayed'
     ).choices(['latest', 'stable', 'hotfix'])
   )
+  .addOption(new Option('--commit', 'commit changes to git'))
   .addOption(new Option('--tag', 'commit changes to git and tag new commit'))
   .addOption(new Option('--raw', 'raw output'))
   .action(versionizeAction)
