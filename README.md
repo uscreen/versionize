@@ -1,6 +1,11 @@
 # versionize
 
-> opinionated package versioner
+[![Test CI](https://github.com/uscreen/versionize/actions/workflows/main.yml/badge.svg)](https://github.com/uscreen/versionize/actions/workflows/main.yml)
+[![Test Coverage](https://coveralls.io/repos/github/uscreen/versionize/badge.svg?branch=main)](https://coveralls.io/github/uscreen/versionize?branch=main)
+[![Known Vulnerabilities](https://snyk.io/test/github/uscreen/versionize/badge.svg?targetFile=package.json)](https://snyk.io/test/github/uscreen/versionize?targetFile=package.json)
+[![NPM Version](https://badge.fury.io/js/@uscreen.de%2Fversionize.svg)](https://badge.fury.io/js/@uscreen.de%2Fversionize)
+
+> Opinionated package versioner
 
 This package can be used for versioning your Node.js projects. It uses Semantic Versioning and increments versions by specifying the desired release type.
 
