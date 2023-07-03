@@ -2,7 +2,7 @@ import tap from 'tap'
 import fs from 'fs'
 import path from 'path'
 import { temporaryDirectory } from 'tempy'
-import { writeToPackageFile } from '../src/utils.js'
+import { writeToPackageFile } from '../../src/utils.js'
 
 let CWD
 tap.before(() => {

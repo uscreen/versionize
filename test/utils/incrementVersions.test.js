@@ -1,5 +1,5 @@
 import tap from 'tap'
-import { sanitizeVersions, incrementVersions } from '../src/utils.js'
+import { sanitizeVersions, incrementVersions } from '../../src/utils.js'
 
 const increment = (packageVersion, manifestVersion, releaseType) => {
   const versions = {

@@ -2,7 +2,7 @@ import tap from 'tap'
 import fs from 'fs'
 import path from 'path'
 import { temporaryDirectory } from 'tempy'
-import { versionize } from '../src/utils.js'
+import { versionize } from '../../src/utils.js'
 
 const writeJSON = (dir, filename, content) => {
   fs.writeFileSync(path.join(dir, filename), JSON.stringify(content), {

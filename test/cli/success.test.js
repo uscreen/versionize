@@ -16,7 +16,7 @@ export const cli = (args, cwd, env, timeout) => {
 
   return new Promise((resolve) => {
     exec(
-      `node ${path.resolve(__dirname, '../bin/cli.js')} ${args.join(' ')}`,
+      `node ${path.resolve(__dirname, '../../bin/cli.js')} ${args.join(' ')}`,
       { cwd, env, timeout },
       (error, stdout, stderr) => {
         resolve({
