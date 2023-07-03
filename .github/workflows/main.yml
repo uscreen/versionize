@@ -25,6 +25,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
 
+      - name: Prepare environment
+        run: |
+          git config --global user.email "githubactions@uscreen.de"
+          git config --global user.name "GitHub Actions"
+
       - name: Install packages
         run: npm install
 
