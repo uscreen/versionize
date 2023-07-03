@@ -63,6 +63,10 @@ const myVersion = getCurrentVersion()
 
 > Format according to https://keepachangelog.com
 
+### v0.6.1
+#### Fixed
+- Write newline to end of package file
+
 ### v0.6.0
 #### Added
 - cli option to commit changes to git without tag
