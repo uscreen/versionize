@@ -4,6 +4,11 @@
   "description": "opinionated package versioner",
   "main": "src/index.js",
   "type": "module",
+  "homepage": "https://github.com/uscreen/versionize",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uscreen/versionize.git"
+  },
   "bin": {
     "versionize": "./bin/cli.js"
   },
