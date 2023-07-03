@@ -25,8 +25,9 @@ export const readFromPackageFile = (src) => {
   return JSON.parse(content)
 }
 
-const writeToPackageFile = (src, data) => {
-  const content = JSON.stringify(data, null, 2)
+export const writeToPackageFile = (src, data) => {
+  const content = JSON.stringify(data, null, 2) + '\n'
+
   fs.writeFileSync(src, content, { encoding: 'utf-8' })
 }
 
