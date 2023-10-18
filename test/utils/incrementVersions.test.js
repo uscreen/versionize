@@ -144,13 +144,13 @@ const conflicts = [
   ]
 ]
 
-tap.test('Incrementing given consistent versions', async (t) => {
+tap.test('Increment consistent versions', async (t) => {
   for (const test of working) {
     testRun(t, ...test)
   }
 })
 
-tap.test('Incrementing given inconsistent versions', async (t) => {
+tap.test('Increment inconsistent versions', async (t) => {
   for (const test of conflicts) {
     testRunConflict(t, ...test)
   }

@@ -5,6 +5,8 @@ import chalk from 'chalk'
 import semver from 'semver'
 import { execSync } from 'child_process'
 
+export const releaseTypes = ['latest', 'stable', 'hotfix']
+
 export const info = (message) => {
   console.log(`${chalk.blue('info')} ${message}`)
 }
@@ -69,7 +71,7 @@ export const incrementVersions = (versions, releaseType) => {
     return { pkg: versions.pkg, mft: result }
   }
   /* c8 ignore next */
-  throw Error('Invalid releaseType') // this should never happen
+  throw Error('Invalid release type') // this should never happen
 }
 
 const readPackagesAndVersions = ({ cwd } = {}) => {
@@ -106,31 +108,28 @@ const writePackagesAndVersions = ({ versions, paths, data }) => {
   writeToPackageFile(paths.mft, data.mft)
 }
 
-const tryGit = (args = []) => {
+const execGit = (args = [], { cwd }) => {
   try {
-    execSync(`git ${args.join(' ')}`, { stdio: 'ignore' })
-    return true
+    execSync(`git ${args.join(' ')}`, { stdio: 'ignore', cwd })
   } catch (e) {
-    warn(`Could not \`git ${args[0]}\``)
-    return false
+    throw Error('Git execution failed')
   }
 }
 
-export const tryCommit = (version, files) => {
+export const execCommit = (version, files, { cwd } = {}) => {
   const tag = `v${version}`
-  return tryGit(['add', ...files]) && tryGit(['commit', '-m', tag])
+  execGit(['add', ...files], { cwd })
+  execGit(['commit', '-m', tag], { cwd })
 }
 
-export const tryCommitAndTag = (version, files) => {
+export const execCommitAndTag = (version, files, { cwd } = {}) => {
   const tag = `v${version}`
-  return (
-    tryGit(['add', ...files]) &&
-    tryGit(['commit', '-m', tag]) &&
-    tryGit(['tag', tag, 'HEAD'])
-  )
+  execGit(['add', ...files], { cwd })
+  execGit(['commit', '-m', tag], { cwd })
+  execGit(['tag', tag, 'HEAD'], { cwd })
 }
 
-export const versionize = (releaseType, { cwd } = {}) => {
+export const bumpVersion = (releaseType, { cwd } = {}) => {
   const { versions, paths, data } = readPackagesAndVersions({ cwd })
 
   const newVersions = incrementVersions(versions, releaseType)

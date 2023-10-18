@@ -5,11 +5,13 @@ import { createRequire } from 'module'
 
 import {
   getCurrentVersion,
-  versionize,
+  bumpVersion,
+  releaseTypes,
   info,
+  warn,
   error,
-  tryCommit,
-  tryCommitAndTag
+  execCommit,
+  execCommitAndTag
 } from '../src/utils.js'
 
 const require = createRequire(import.meta.url)
@@ -34,10 +36,14 @@ const versionizeAction = (
 
       info(`Current version is ${version}`)
     } else {
-      const { currentVersion, newVersion, files } = versionize(releaseType)
+      const { currentVersion, newVersion, files } = bumpVersion(releaseType)
 
-      if (commit) tryCommit(newVersion, files)
-      if (tag) tryCommitAndTag(newVersion, files)
+      try {
+        if (tag) execCommitAndTag(newVersion, files)
+        else if (commit) execCommit(newVersion, files)
+      } catch (e) {
+        warn('git execution failed')
+      }
 
       if (raw) return console.log(newVersion)
 
@@ -60,7 +66,7 @@ program
     new Argument(
       '[releaseType]',
       'determines new version. If not given, current version will be displayed'
-    ).choices(['latest', 'stable', 'hotfix'])
+    ).choices(releaseTypes)
   )
   .addOption(new Option('--commit', 'commit changes to git'))
   .addOption(new Option('--tag', 'commit changes to git and tag new commit'))

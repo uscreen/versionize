@@ -44,7 +44,7 @@ const readJSON = (dir, filename) => {
   return JSON.parse(content)
 }
 
-tap.test('CLI', async (t) => {
+tap.test('Succeeding CLI calls', async (t) => {
   let CWD
   t.beforeEach(() => {
     CWD = temporaryDirectory()

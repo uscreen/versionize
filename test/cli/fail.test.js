@@ -36,7 +36,7 @@ const writeJSON = (dir, filename, content) => {
   })
 }
 
-tap.test('CLI Fails', async (t) => {
+tap.test('Failing CLI calls', async (t) => {
   let CWD
 
   t.beforeEach(() => {
@@ -44,6 +44,20 @@ tap.test('CLI Fails', async (t) => {
   })
   t.afterEach(() => {
     fs.rmSync(CWD, { recursive: true })
+  })
+
+  t.test('$ versionize latest, but with inconsistent versions', async (t) => {
+    writeJSON(CWD, 'package.json', { version: '0.3.0' })
+    writeJSON(CWD, 'manifest.json', { version: '0.5.0-2' })
+
+    const result = await cli(['latest'], CWD)
+    t.not(result.code, 0, 'code !== 0')
+    t.equal(
+      result.stderr,
+      'error Versions in package.json and manifest.json are inconsistent\n',
+      'expected stderr'
+    )
+    t.equal(result.stdout, '', 'expected stdout')
   })
 
   t.test(
@@ -70,7 +84,11 @@ tap.test('CLI Fails', async (t) => {
 
       const result = await cli(['latest', '--commit'], CWD)
       t.equal(result.code, 0, 'code 0')
-      t.equal(result.stderr, 'warning Could not `git add`\n', 'expected stderr')
+      t.equal(
+        result.stderr,
+        'warning git execution failed\n',
+        'expected stderr'
+      )
       t.equal(
         result.stdout,
         'info Current version is 0.4.0-2\ninfo New version is 0.4.0-3\n',
@@ -101,7 +119,7 @@ tap.test('CLI Fails', async (t) => {
 
     const result = await cli(['latest', '--tag'], CWD)
     t.equal(result.code, 0, 'code 0')
-    t.equal(result.stderr, 'warning Could not `git add`\n', 'expected stderr')
+    t.equal(result.stderr, 'warning git execution failed\n', 'expected stderr')
     t.equal(
       result.stdout,
       'info Current version is 0.4.0-2\ninfo New version is 0.4.0-3\n',

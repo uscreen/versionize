@@ -2,7 +2,7 @@ import tap from 'tap'
 import fs from 'fs'
 import path from 'path'
 import { temporaryDirectory } from 'tempy'
-import { versionize } from '../../src/utils.js'
+import { bumpVersion } from '../../src/utils.js'
 
 const writeJSON = (dir, filename, content) => {
   fs.writeFileSync(path.join(dir, filename), JSON.stringify(content), {
@@ -22,7 +22,7 @@ const existsFile = (dir, filename) => {
   return fs.existsSync(path.join(dir, filename))
 }
 
-tap.test('Versionize package', async (t) => {
+tap.test('Bump version', async (t) => {
   let CWD
   t.beforeEach(() => {
     CWD = temporaryDirectory()
@@ -34,7 +34,7 @@ tap.test('Versionize package', async (t) => {
   t.test('From directory without package.json and manifest.json', async (t) => {
     let error = null
     try {
-      versionize('stable', { cwd: CWD })
+      bumpVersion('stable', { cwd: CWD })
     } catch (e) {
       error = e
     }
@@ -57,7 +57,7 @@ tap.test('Versionize package', async (t) => {
 
       let error = null
       try {
-        versionize('stable', { cwd: CWD })
+        bumpVersion('stable', { cwd: CWD })
       } catch (e) {
         error = e
       }
@@ -84,7 +84,7 @@ tap.test('Versionize package', async (t) => {
 
       let error = null
       try {
-        versionize('stable', { cwd: CWD })
+        bumpVersion('stable', { cwd: CWD })
       } catch (e) {
         error = e
       }
@@ -111,7 +111,7 @@ tap.test('Versionize package', async (t) => {
 
       let error = null
       try {
-        versionize('stable', { cwd: CWD })
+        bumpVersion('stable', { cwd: CWD })
       } catch (e) {
         error = e
       }
@@ -138,7 +138,7 @@ tap.test('Versionize package', async (t) => {
 
       let error = null
       try {
-        versionize('stable', { cwd: CWD })
+        bumpVersion('stable', { cwd: CWD })
       } catch (e) {
         error = e
       }
