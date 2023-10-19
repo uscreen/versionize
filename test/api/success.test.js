@@ -32,7 +32,7 @@ tap.test('Succeeding API calls', async (t) => {
   })
 
   t.test(`bumpVersion('latest')`, async (t) => {
-    const result = await bumpVersion('latest', { cwd: CWD })
+    const result = bumpVersion('latest', { cwd: CWD })
     t.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
     t.equal(result.newVersion, '0.4.0-3', 'returns correct new version')
 
@@ -44,7 +44,7 @@ tap.test('Succeeding API calls', async (t) => {
   })
 
   t.test(`bumpVersion('latest', { commit: true })`, async (t) => {
-    const result = await bumpVersion('latest', { cwd: CWD, commit: true })
+    const result = bumpVersion('latest', { cwd: CWD, commit: true })
     t.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
     t.equal(result.newVersion, '0.4.0-3', 'returns correct new version')
 
@@ -62,7 +62,7 @@ tap.test('Succeeding API calls', async (t) => {
   })
 
   t.test(`bumpVersion('latest', { tag: true })`, async (t) => {
-    const result = await bumpVersion('latest', { cwd: CWD, tag: true })
+    const result = bumpVersion('latest', { cwd: CWD, tag: true })
     t.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
     t.equal(result.newVersion, '0.4.0-3', 'returns correct new version')
 
@@ -80,7 +80,7 @@ tap.test('Succeeding API calls', async (t) => {
   })
 
   t.test(`bumpVersion('stable')`, async (t) => {
-    const result = await bumpVersion('stable', { cwd: CWD })
+    const result = bumpVersion('stable', { cwd: CWD })
     t.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
     t.equal(result.newVersion, '0.4.0', 'returns correct new version')
 
@@ -92,7 +92,7 @@ tap.test('Succeeding API calls', async (t) => {
   })
 
   t.test(`bumpVersion('stable', { commit: true })`, async (t) => {
-    const result = await bumpVersion('stable', { cwd: CWD, commit: true })
+    const result = bumpVersion('stable', { cwd: CWD, commit: true })
     t.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
     t.equal(result.newVersion, '0.4.0', 'returns correct new version')
 
@@ -110,7 +110,7 @@ tap.test('Succeeding API calls', async (t) => {
   })
 
   t.test(`bumpVersion('stable', { tag: true })`, async (t) => {
-    const result = await bumpVersion('stable', { cwd: CWD, tag: true })
+    const result = bumpVersion('stable', { cwd: CWD, tag: true })
     t.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
     t.equal(result.newVersion, '0.4.0', 'returns correct new version')
 
@@ -128,7 +128,7 @@ tap.test('Succeeding API calls', async (t) => {
   })
 
   t.test(`bumpVersion('hotfix')`, async (t) => {
-    const result = await bumpVersion('hotfix', { cwd: CWD })
+    const result = bumpVersion('hotfix', { cwd: CWD })
     t.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
     t.equal(result.newVersion, '0.3.1', 'returns correct new version')
 
@@ -140,7 +140,7 @@ tap.test('Succeeding API calls', async (t) => {
   })
 
   t.test(`bumpVersion('hotfix', { commit: true })`, async (t) => {
-    const result = await bumpVersion('hotfix', { cwd: CWD, commit: true })
+    const result = bumpVersion('hotfix', { cwd: CWD, commit: true })
     t.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
     t.equal(result.newVersion, '0.3.1', 'returns correct new version')
 
@@ -158,7 +158,7 @@ tap.test('Succeeding API calls', async (t) => {
   })
 
   t.test(`bumpVersion('hotfix', { tag: true })`, async (t) => {
-    const result = await bumpVersion('hotfix', { cwd: CWD, tag: true })
+    const result = bumpVersion('hotfix', { cwd: CWD, tag: true })
     t.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
     t.equal(result.newVersion, '0.3.1', 'returns correct new version')
 

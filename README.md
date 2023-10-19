@@ -71,23 +71,23 @@ const myVersion = getCurrentVersion({ cwd: '/path/to/my/project' })
 Bump the version of your project:
 
 ```javascript
-await bumpVersion('stable')
+bumpVersion('stable')
 ```
 
 You could overwrite the current working directory with the option `cwd`:
 
 ```javascript
-await bumpVersion('stable', { cwd: '/path/to/my/project' })
+bumpVersion('stable', { cwd: '/path/to/my/project' })
 ```
 
 To commit or tag the version bump, use the corresponding options:
 
 ```javascript
 // commit:
-await bumpVersion('stable', { commit: true })
+bumpVersion('stable', { commit: true })
 
 // (commit &) tag:
-await bumpVersion('stable', { tag: true })
+bumpVersion('stable', { tag: true })
 ```
 
 ---

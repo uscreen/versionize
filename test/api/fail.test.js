@@ -28,7 +28,7 @@ tap.test('Failing API calls', async (t) => {
     writeJSON(CWD, 'manifest.json', { version: '0.5.0-2' })
 
     try {
-      await bumpVersion(null, { cwd: CWD })
+      bumpVersion(null, { cwd: CWD })
       t.fail('should throw error')
     } catch (e) {
       t.pass('should throw error')
@@ -41,7 +41,7 @@ tap.test('Failing API calls', async (t) => {
     writeJSON(CWD, 'manifest.json', { version: '0.5.0-2' })
 
     try {
-      await bumpVersion('latest', { cwd: CWD })
+      bumpVersion('latest', { cwd: CWD })
       t.fail('should throw error')
     } catch (e) {
       t.pass('should throw error')
@@ -60,7 +60,7 @@ tap.test('Failing API calls', async (t) => {
       writeJSON(CWD, 'manifest.json', { version: '0.5.0-2' })
 
       try {
-        await bumpVersion('latest', { commit: true, cwd: CWD })
+        bumpVersion('latest', { commit: true, cwd: CWD })
       } catch (e) {
         t.pass('should throw error')
         t.equal(
@@ -79,7 +79,7 @@ tap.test('Failing API calls', async (t) => {
       writeJSON(CWD, 'manifest.json', { version: '0.4.0-2' })
 
       try {
-        await bumpVersion('latest', { commit: true, cwd: CWD })
+        bumpVersion('latest', { commit: true, cwd: CWD })
       } catch (e) {
         t.pass('should throw error')
         t.equal(e.message, 'Git execution failed', 'with expected message')
@@ -94,7 +94,7 @@ tap.test('Failing API calls', async (t) => {
       writeJSON(CWD, 'manifest.json', { version: '0.5.0-2' })
 
       try {
-        await bumpVersion('latest', { tag: true, cwd: CWD })
+        bumpVersion('latest', { tag: true, cwd: CWD })
       } catch (e) {
         t.pass('should throw error')
         t.equal(
@@ -113,7 +113,7 @@ tap.test('Failing API calls', async (t) => {
       writeJSON(CWD, 'manifest.json', { version: '0.4.0-2' })
 
       try {
-        await bumpVersion('latest', { tag: true, cwd: CWD })
+        bumpVersion('latest', { tag: true, cwd: CWD })
       } catch (e) {
         t.pass('should throw error')
         t.equal(e.message, 'Git execution failed', 'with expected message')
