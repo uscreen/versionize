@@ -11,7 +11,7 @@ This package can be used for versioning your Node.js projects. It uses Semantic 
 
 ## Prerequisites
 
-- `node` v16 or higher
+- `node` v18 or higher
 
 ## Install
 
@@ -46,11 +46,48 @@ You need a working `git` binary in your `PATH`.
 
 ### JavaScript
 
-The package also exposes the method `getCurrentVersion` so you could get the current version inside of your project like this:
+The package also exposes some methods so you could use `versionize` inside your project:
 
 ```javascript
-import { getCurrentVersion } from '@uscreen.de/versionize'
+import { getCurrentVersion, bumpVersion } from '@uscreen.de/versionize'
+```
+
+#### getCurrentVersion
+
+Get the current version of your project:
+
+```javascript
 const myVersion = getCurrentVersion()
+```
+
+You could overwrite the current working directory with the option `cwd`:
+
+```javascript
+const myVersion = getCurrentVersion({ cwd: '/path/to/my/project' })
+```
+
+#### bumpVersion
+
+Bump the version of your project:
+
+```javascript
+await bumpVersion('stable')
+```
+
+You could overwrite the current working directory with the option `cwd`:
+
+```javascript
+await bumpVersion('stable', { cwd: '/path/to/my/project' })
+```
+
+To commit or tag the version bump, use the corresponding options:
+
+```javascript
+// commit:
+await bumpVersion('stable', { commit: true })
+
+// (commit &) tag:
+await bumpVersion('stable', { tag: true })
 ```
 
 ---
@@ -63,9 +100,16 @@ const myVersion = getCurrentVersion()
 
 > Format according to https://keepachangelog.com
 
+### v0.7.0
+#### Added
+- expose method to bump version
+
+#### Removed
+- node v16 support
+
 ### v0.6.1
 #### Fixed
-- Write newline to end of package file
+- write newline to end of package file
 
 ### v0.6.0
 #### Added
@@ -81,7 +125,7 @@ const myVersion = getCurrentVersion()
 
 ### v0.3.0
 #### Added
-- show current version when calling calling versionize without arguments
+- show current version when calling versionize without arguments
 
 #### Changed
 - give feedback about current version, too
