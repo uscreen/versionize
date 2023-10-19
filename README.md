@@ -100,6 +100,10 @@ bumpVersion('stable', { tag: true })
 
 > Format according to https://keepachangelog.com
 
+### v0.7.1
+#### Fixed
+- fix api documentation in readme
+
 ### v0.7.0
 #### Added
 - expose method to bump version
