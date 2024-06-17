@@ -44,6 +44,12 @@ If used with option `--commit`, versionize will automatically commit the changes
 
 You need a working `git` binary in your `PATH`.
 
+#### Sync versions
+
+If `versionize` is used additionally to another version management tool, it may be necessary to sync the versions between `package.json` and `manifest.json`. This can be done with the options `--sync-from-newest`, `sync-from-package` and `--sync-from-manifest`. If used with `latest`, `stable` or `hotfix`, the versions will be synced before incrementing. If used without any of these arguments, the versions will be synced without incrementing.
+
+If another tool is used to change the versions in package.json, it may be feasible to sync the versions in manifest.json with the versions in package.json. This can be done by using the option `--sync`.
+
 ### JavaScript
 
 The package also exposes some methods so you could use `versionize` inside your project:

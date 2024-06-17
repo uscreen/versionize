@@ -33,7 +33,7 @@ export const writeToPackageFile = (src, data) => {
   fs.writeFileSync(src, content, { encoding: 'utf-8' })
 }
 
-export const sanitizeVersions = (versions) => {
+export const sanitizeVersions = (versions, syncType) => {
   if (!versions.pkg) throw Error('Could not read version from package.json')
 
   if (!semver.valid(versions.pkg))
@@ -52,7 +52,22 @@ export const sanitizeVersions = (versions) => {
   )
     return
 
-  throw Error('Versions in package.json and manifest.json are inconsistent')
+  switch (syncType) {
+    case 'from-newest':
+      // TODO: CHeck which is the newer version and use this
+      // TODO: Don't use preRelease version in package.json
+      versions.pkg = versions.mft
+      break
+    case 'from-package':
+      versions.mft = versions.pkg
+      break
+    case 'from-manifest':
+      // TODO: Don't use preRelease version in package.json
+      versions.pkg = versions.mft
+      break
+    default:
+      throw Error('Versions in package.json and manifest.json are inconsistent')
+  }
 }
 
 export const incrementVersions = (versions, releaseType) => {
@@ -74,7 +89,7 @@ export const incrementVersions = (versions, releaseType) => {
   throw Error('Invalid release type') // this should never happen
 }
 
-const readPackagesAndVersions = ({ cwd } = {}) => {
+const readPackagesAndVersions = ({ cwd, skipInconsistencyCheck } = {}) => {
   const dir = packageDirectorySync({ cwd })
   if (!dir) throw Error('Not in package directory')
 
@@ -94,8 +109,6 @@ const readPackagesAndVersions = ({ cwd } = {}) => {
     pkg: data.pkg.version,
     mft: data.mft.version
   }
-
-  sanitizeVersions(versions)
 
   return { versions, paths, data }
 }
@@ -131,6 +144,7 @@ export const execCommitAndTag = (version, files, { cwd } = {}) => {
 
 export const bumpVersion = (releaseType, { cwd } = {}) => {
   const { versions, paths, data } = readPackagesAndVersions({ cwd })
+  sanitizeVersions(versions)
 
   const newVersions = incrementVersions(versions, releaseType)
   writePackagesAndVersions({ versions: newVersions, paths, data })
@@ -142,8 +156,32 @@ export const bumpVersion = (releaseType, { cwd } = {}) => {
   }
 }
 
+/**
+ * - Beim Aufruf ist
+ *     syncType ∈ {
+ *      'from-newest',  // Die neuere Version ist führend
+ *      'from-package', // Die Version aus package.json ist führend
+ *      'from-manifest' // Die Version aus manifest.json ist führend
+ *     }
+ *
+ * - Repariert/Synchronisiert wird nur, wenn kaputt!
+ * - Wird von Manifest nach Package synchronisiert, wird ggf. die zur gegebenen
+ * - PreRelease-Version passende Version gewählt.
+ *
+ * TODO: WIe nennen wir's? repairVersions, syncVersions, ...?
+ */
+export const syncVersions = ({ cwd, syncType }) => {
+  const { versions, paths, data } = readPackagesAndVersions({ cwd })
+  sanitizeVersions(versions, syncType)
+
+  writePackagesAndVersions({ versions, paths, data })
+
+  return versions.mft
+}
+
 export const getCurrentVersion = ({ cwd } = {}) => {
   const { versions } = readPackagesAndVersions({ cwd })
+  sanitizeVersions(versions)
 
   return versions.mft
 }
