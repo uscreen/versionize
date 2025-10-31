@@ -42,7 +42,7 @@
     "chalk": "^5.2.0",
     "commander": "^14.0.0",
     "pkg-dir": "^9.0.0",
-    "semver": "^7.5.1"
+    "semver": "^7.7.3"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
