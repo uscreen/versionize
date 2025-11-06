@@ -20,11 +20,7 @@
   "scripts": {
     "test": "c8 tap",
     "test:cov": "c8 --reporter=html --reporter=text tap",
-    "test:ci": "c8 --reporter=lcovonly tap",
-    "prepare": "husky install"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
+    "test:ci": "c8 --reporter=lcovonly tap"
   },
   "files": [
     "bin/",
@@ -33,8 +29,6 @@
   "devDependencies": {
     "@uscreen.de/eslint-config-prettystandard-node": "^0.2.10",
     "c8": "^10.1.2",
-    "husky": ">=8.0.2",
-    "lint-staged": ">=13.0.3",
     "tap": "^16.3.2",
     "tempy": "^3.0.0"
   },
@@ -43,8 +37,5 @@
     "commander": "^14.0.0",
     "pkg-dir": "^9.0.0",
     "semver": "^7.5.1"
-  },
-  "lint-staged": {
-    "*.js": "eslint --cache --fix"
   }
 }
