@@ -18,7 +18,7 @@ This package can be used for versioning your Node.js projects. It uses Semantic 
 Add the module within your monorepo:
 
 ```bash
-$ yarn add -D @uscreen.de/versionize
+$ pnpm add -D @uscreen.de/versionize
 ```
 
 ## Usage
