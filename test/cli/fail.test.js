@@ -1,4 +1,5 @@
-import tap from 'tap'
+import { test, describe, beforeEach, afterEach } from 'node:test'
+import assert from 'node:assert/strict'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -36,91 +37,84 @@ const writeJSON = (dir, filename, content) => {
   })
 }
 
-tap.test('Failing CLI calls', async (t) => {
+describe('Failing CLI calls', () => {
   let CWD
 
-  t.beforeEach(() => {
+  beforeEach(() => {
     CWD = temporaryDirectory()
   })
-  t.afterEach(() => {
+  afterEach(() => {
     fs.rmSync(CWD, { recursive: true })
   })
 
-  t.test('$ versionize latest, but with inconsistent versions', async (t) => {
+  test('$ versionize latest, but with inconsistent versions', async () => {
     writeJSON(CWD, 'package.json', { version: '0.3.0' })
     writeJSON(CWD, 'manifest.json', { version: '0.5.0-2' })
 
     const result = await cli(['latest'], CWD)
-    t.not(result.code, 0, 'code !== 0')
-    t.equal(
+    assert.notEqual(result.code, 0, 'code !== 0')
+    assert.equal(
       result.stderr,
       'error Versions in package.json and manifest.json are inconsistent\n',
       'expected stderr'
     )
-    t.equal(result.stdout, '', 'expected stdout')
+    assert.equal(result.stdout, '', 'expected stdout')
   })
 
-  t.test(
-    '$ versionize latest --commit, but with inconsistent versions',
-    async (t) => {
-      writeJSON(CWD, 'package.json', { version: '0.3.0' })
-      writeJSON(CWD, 'manifest.json', { version: '0.5.0-2' })
+  test('$ versionize latest --commit, but with inconsistent versions', async () => {
+    writeJSON(CWD, 'package.json', { version: '0.3.0' })
+    writeJSON(CWD, 'manifest.json', { version: '0.5.0-2' })
 
-      const result = await cli(['latest', '--commit'], CWD)
-      t.not(result.code, 0, 'code !== 0')
-      t.equal(
-        result.stderr,
-        'error Versions in package.json and manifest.json are inconsistent\n',
-        'expected stderr'
-      )
-      t.equal(result.stdout, '', 'expected stdout')
-    }
-  )
-  t.test(
-    '$ versionize latest --commit, but without git repository',
-    async (t) => {
-      writeJSON(CWD, 'package.json', { version: '0.3.0' })
-      writeJSON(CWD, 'manifest.json', { version: '0.4.0-2' })
+    const result = await cli(['latest', '--commit'], CWD)
+    assert.notEqual(result.code, 0, 'code !== 0')
+    assert.equal(
+      result.stderr,
+      'error Versions in package.json and manifest.json are inconsistent\n',
+      'expected stderr'
+    )
+    assert.equal(result.stdout, '', 'expected stdout')
+  })
 
-      const result = await cli(['latest', '--commit'], CWD)
-      t.equal(result.code, 0, 'code 0')
-      t.equal(
-        result.stderr,
-        'warning git execution failed\n',
-        'expected stderr'
-      )
-      t.equal(
-        result.stdout,
-        'info Current version is 0.4.0-2\ninfo New version is 0.4.0-3\n',
-        'expected stdout'
-      )
-    }
-  )
+  test('$ versionize latest --commit, but without git repository', async () => {
+    writeJSON(CWD, 'package.json', { version: '0.3.0' })
+    writeJSON(CWD, 'manifest.json', { version: '0.4.0-2' })
 
-  t.test(
-    '$ versionize latest --tag, but with inconsistent versions',
-    async (t) => {
-      writeJSON(CWD, 'package.json', { version: '0.3.0' })
-      writeJSON(CWD, 'manifest.json', { version: '0.5.0-2' })
+    const result = await cli(['latest', '--commit'], CWD)
+    assert.equal(result.code, 0, 'code 0')
+    assert.equal(
+      result.stderr,
+      'warning git execution failed\n',
+      'expected stderr'
+    )
+    assert.equal(
+      result.stdout,
+      'info Current version is 0.4.0-2\ninfo New version is 0.4.0-3\n',
+      'expected stdout'
+    )
+  })
 
-      const result = await cli(['latest', '--tag'], CWD)
-      t.not(result.code, 0, 'code !== 0')
-      t.equal(
-        result.stderr,
-        'error Versions in package.json and manifest.json are inconsistent\n',
-        'expected stderr'
-      )
-      t.equal(result.stdout, '', 'expected stdout')
-    }
-  )
-  t.test('$ versionize latest --tag, but without git repository', async (t) => {
+  test('$ versionize latest --tag, but with inconsistent versions', async () => {
+    writeJSON(CWD, 'package.json', { version: '0.3.0' })
+    writeJSON(CWD, 'manifest.json', { version: '0.5.0-2' })
+
+    const result = await cli(['latest', '--tag'], CWD)
+    assert.notEqual(result.code, 0, 'code !== 0')
+    assert.equal(
+      result.stderr,
+      'error Versions in package.json and manifest.json are inconsistent\n',
+      'expected stderr'
+    )
+    assert.equal(result.stdout, '', 'expected stdout')
+  })
+
+  test('$ versionize latest --tag, but without git repository', async () => {
     writeJSON(CWD, 'package.json', { version: '0.3.0' })
     writeJSON(CWD, 'manifest.json', { version: '0.4.0-2' })
 
     const result = await cli(['latest', '--tag'], CWD)
-    t.equal(result.code, 0, 'code 0')
-    t.equal(result.stderr, 'warning git execution failed\n', 'expected stderr')
-    t.equal(
+    assert.equal(result.code, 0, 'code 0')
+    assert.equal(result.stderr, 'warning git execution failed\n', 'expected stderr')
+    assert.equal(
       result.stdout,
       'info Current version is 0.4.0-2\ninfo New version is 0.4.0-3\n',
       'expected stdout'

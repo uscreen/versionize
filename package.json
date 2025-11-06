@@ -19,9 +19,9 @@
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "test": "c8 tap",
-    "test:cov": "c8 --reporter=html --reporter=text tap",
-    "test:ci": "c8 --reporter=lcovonly tap"
+    "test": "node --test --test-reporter spec",
+    "test:cov": "c8 --reporter=html --reporter=text node --test",
+    "test:ci": "c8 --reporter=lcov --reporter=text node --test"
   },
   "files": [
     "bin/",
@@ -30,7 +30,6 @@
   "devDependencies": {
     "@uscreen.de/eslint-config-prettystandard-node": "^0.2.10",
     "c8": "^10.1.2",
-    "tap": "^16.3.2",
     "tempy": "^3.0.0"
   },
   "dependencies": {

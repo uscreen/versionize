@@ -1,4 +1,5 @@
-import tap from 'tap'
+import { test, describe } from 'node:test'
+import assert from 'node:assert/strict'
 import { sanitizeVersions, incrementVersions } from '../../src/utils.js'
 
 const increment = (packageVersion, manifestVersion, releaseType) => {
@@ -11,21 +12,20 @@ const increment = (packageVersion, manifestVersion, releaseType) => {
 }
 
 const testRun = async (
-  t,
   packageVersion,
   manifestVersion,
   releaseType,
   expectedPackageVersion,
   expectedManifestVersion
 ) => {
-  const vs = increment(packageVersion, manifestVersion, releaseType)
-  return t.test(`Calling <${releaseType}>...`, async (t) => {
-    t.equal(
+  await test(`Calling <${releaseType}>...`, async () => {
+    const vs = increment(packageVersion, manifestVersion, releaseType)
+    assert.equal(
       vs.pkg,
       expectedPackageVersion,
       `package.json : ${packageVersion} -> ${expectedPackageVersion}`
     )
-    t.equal(
+    assert.equal(
       vs.mft,
       expectedManifestVersion,
       `manifest.json: ${
@@ -36,17 +36,16 @@ const testRun = async (
 }
 
 const testRunConflict = async (
-  t,
   packageVersion,
   manifestVersion,
   releaseType,
   expectedError
 ) => {
-  return t.test(
+  await test(
     `Calling <${releaseType}> on ${packageVersion || 'empty'} [${
       manifestVersion || 'empty'
     }]...`,
-    async (t) => {
+    async () => {
       let error = null
       let vs = null
       try {
@@ -54,9 +53,9 @@ const testRunConflict = async (
       } catch (e) {
         error = e
       }
-      t.ok(error, 'An error was thrown')
-      t.same(error.message, expectedError, 'Error message ok')
-      t.notOk(vs, 'Versions were not incremented')
+      assert.ok(error, 'An error was thrown')
+      assert.equal(error.message, expectedError, 'Error message ok')
+      assert.ok(!vs, 'Versions were not incremented')
     }
   )
 }
@@ -144,14 +143,14 @@ const conflicts = [
   ]
 ]
 
-tap.test('Increment consistent versions', async (t) => {
-  for (const test of working) {
-    testRun(t, ...test)
+describe('Increment consistent versions', async () => {
+  for (const testCase of working) {
+    await testRun(...testCase)
   }
 })
 
-tap.test('Increment inconsistent versions', async (t) => {
-  for (const test of conflicts) {
-    testRunConflict(t, ...test)
+describe('Increment inconsistent versions', async () => {
+  for (const testCase of conflicts) {
+    await testRunConflict(...testCase)
   }
 })

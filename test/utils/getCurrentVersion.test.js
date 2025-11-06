@@ -1,4 +1,5 @@
-import tap from 'tap'
+import { test, describe, beforeEach, afterEach } from 'node:test'
+import assert from 'node:assert/strict'
 import fs from 'fs'
 import path from 'path'
 import { temporaryDirectory } from 'tempy'
@@ -10,16 +11,16 @@ const writeJSON = (dir, filename, content) => {
   })
 }
 
-tap.test('Get current version', async (t) => {
+describe('Get current version', () => {
   let CWD
-  t.beforeEach(() => {
+  beforeEach(() => {
     CWD = temporaryDirectory()
   })
-  t.afterEach(() => {
+  afterEach(() => {
     fs.rmSync(CWD, { recursive: true })
   })
 
-  t.test('From directory without package.json and manifest.json', async (t) => {
+  test('From directory without package.json and manifest.json', async () => {
     let version = null
     let error = null
     try {
@@ -28,58 +29,46 @@ tap.test('Get current version', async (t) => {
       error = e
     }
 
-    t.ok(error, 'throws error')
-    t.notOk(version, 'does not return version')
+    assert.ok(error, 'throws error')
+    assert.ok(!version, 'does not return version')
   })
 
-  t.test(
-    'From directory without version in package.json and manifest.json',
-    async (t) => {
-      writeJSON(CWD, 'package.json', {})
-      writeJSON(CWD, 'manifest.json', {})
+  test('From directory without version in package.json and manifest.json', async () => {
+    writeJSON(CWD, 'package.json', {})
+    writeJSON(CWD, 'manifest.json', {})
 
-      let version = null
-      let error = null
-      try {
-        version = getCurrentVersion({ cwd: CWD })
-      } catch (e) {
-        error = e
-      }
-
-      t.ok(error, 'throws error')
-      t.notOk(version, 'does not return version')
+    let version = null
+    let error = null
+    try {
+      version = getCurrentVersion({ cwd: CWD })
+    } catch (e) {
+      error = e
     }
-  )
 
-  t.test(
-    'From directory with version in package.json and no manifest.json',
-    async (t) => {
-      writeJSON(CWD, 'package.json', { version: '0.3.0' })
+    assert.ok(error, 'throws error')
+    assert.ok(!version, 'does not return version')
+  })
 
-      const version = getCurrentVersion({ cwd: CWD })
-      t.equal(version, '0.3.0', 'returns version from package.json')
-    }
-  )
+  test('From directory with version in package.json and no manifest.json', async () => {
+    writeJSON(CWD, 'package.json', { version: '0.3.0' })
 
-  t.test(
-    'From directory with version in package.json and no version in manifest.json',
-    async (t) => {
-      writeJSON(CWD, 'package.json', { version: '0.3.0' })
-      writeJSON(CWD, 'manifest.json', {})
+    const version = getCurrentVersion({ cwd: CWD })
+    assert.equal(version, '0.3.0', 'returns version from package.json')
+  })
 
-      const version = getCurrentVersion({ cwd: CWD })
-      t.equal(version, '0.3.0', 'returns version from package.json')
-    }
-  )
+  test('From directory with version in package.json and no version in manifest.json', async () => {
+    writeJSON(CWD, 'package.json', { version: '0.3.0' })
+    writeJSON(CWD, 'manifest.json', {})
 
-  t.test(
-    'From directory with versions in package.json and manifest.json',
-    async (t) => {
-      writeJSON(CWD, 'package.json', { version: '0.3.0' })
-      writeJSON(CWD, 'manifest.json', { version: '0.4.0-2' })
+    const version = getCurrentVersion({ cwd: CWD })
+    assert.equal(version, '0.3.0', 'returns version from package.json')
+  })
 
-      const version = getCurrentVersion({ cwd: CWD })
-      t.equal(version, '0.4.0-2', 'returns version from manifest.json')
-    }
-  )
+  test('From directory with versions in package.json and manifest.json', async () => {
+    writeJSON(CWD, 'package.json', { version: '0.3.0' })
+    writeJSON(CWD, 'manifest.json', { version: '0.4.0-2' })
+
+    const version = getCurrentVersion({ cwd: CWD })
+    assert.equal(version, '0.4.0-2', 'returns version from manifest.json')
+  })
 })
