@@ -100,6 +100,13 @@ bumpVersion('stable', { tag: true })
 
 > Format according to https://keepachangelog.com
 
+### v0.8.0
+#### Changed
+- adjust node requirements
+- upgrade multiple packages
+- replace tap with native node tests
+- migrate to pnpm
+
 ### v0.7.1
 #### Fixed
 - fix api documentation in readme
