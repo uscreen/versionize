@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { packageDirectorySync } from 'pkg-dir'
+import { packageDirectorySync } from 'package-directory'
 import chalk from 'chalk'
 import semver from 'semver'
 import { execSync } from 'child_process'
