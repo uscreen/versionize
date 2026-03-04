@@ -21,15 +21,19 @@
     "preinstall": "npx only-allow pnpm",
     "test": "node --test --test-reporter spec",
     "test:cov": "c8 --reporter=html --reporter=text node --test",
-    "test:ci": "c8 --reporter=lcov --reporter=text node --test"
+    "test:ci": "c8 --reporter=lcov --reporter=text node --test",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "files": [
     "bin/",
     "src/"
   ],
   "devDependencies": {
-    "@uscreen.de/eslint-config-prettystandard-node": "^0.3.0",
+    "@antfu/eslint-config": "^7.6.1",
     "c8": "^11.0.0",
+    "eslint": "^9.39.3",
+    "eslint-plugin-format": "^1.5.0",
     "tempy": "^3.1.0"
   },
   "dependencies": {
