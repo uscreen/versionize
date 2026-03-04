@@ -1,17 +1,18 @@
 #!/usr/bin/env node
 
+import { createRequire } from 'node:module'
+import process from 'node:process'
 import { Argument, Command, Option } from 'commander'
-import { createRequire } from 'module'
 
 import {
-  getCurrentVersion,
   bumpVersion,
-  releaseTypes,
-  info,
-  warn,
   error,
   execCommit,
-  execCommitAndTag
+  execCommitAndTag,
+  getCurrentVersion,
+  info,
+  releaseTypes,
+  warn
 } from '../src/utils.js'
 
 const require = createRequire(import.meta.url)
@@ -32,25 +33,36 @@ const versionizeAction = (
   try {
     if (!releaseType) {
       const version = getCurrentVersion()
-      if (raw) return console.log(version)
+      if (raw) {
+        return console.log(version)
+      }
 
       info(`Current version is ${version}`)
-    } else {
+    }
+    else {
       const { currentVersion, newVersion, files } = bumpVersion(releaseType)
 
       try {
-        if (tag) execCommitAndTag(newVersion, files)
-        else if (commit) execCommit(newVersion, files)
-      } catch (e) {
+        if (tag) {
+          execCommitAndTag(newVersion, files)
+        }
+        else if (commit) {
+          execCommit(newVersion, files)
+        }
+      }
+      catch {
         warn('git execution failed')
       }
 
-      if (raw) return console.log(newVersion)
+      if (raw) {
+        return console.log(newVersion)
+      }
 
       info(`Current version is ${currentVersion}`)
       info(`New version is ${newVersion}`)
     }
-  } catch (e) {
+  }
+  catch (e) {
     error(e)
   }
 }

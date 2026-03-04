@@ -1,6 +1,6 @@
-import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
-import { sanitizeVersions, incrementVersions } from '../../src/utils.js'
+import { describe, test } from 'node:test'
+import { incrementVersions, sanitizeVersions } from '../../src/utils.js'
 
 const increment = (packageVersion, manifestVersion, releaseType) => {
   const versions = {
@@ -50,7 +50,8 @@ const testRunConflict = async (
       let vs = null
       try {
         vs = increment(packageVersion, manifestVersion, releaseType)
-      } catch (e) {
+      }
+      catch (e) {
         error = e
       }
       assert.ok(error, 'An error was thrown')

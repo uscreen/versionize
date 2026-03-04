@@ -49,7 +49,7 @@ You need a working `git` binary in your `PATH`.
 The package also exposes some methods so you could use `versionize` inside your project:
 
 ```javascript
-import { getCurrentVersion, bumpVersion } from '@uscreen.de/versionize'
+import { bumpVersion, getCurrentVersion } from '@uscreen.de/versionize'
 ```
 
 #### getCurrentVersion
@@ -101,44 +101,62 @@ bumpVersion('stable', { tag: true })
 > Format according to https://keepachangelog.com
 
 ### v0.8.0
+
 #### Changed
+
 - adjust node requirements
 - upgrade multiple packages
 - replace tap with native node tests
 - migrate to pnpm
 
 ### v0.7.1
+
 #### Fixed
+
 - fix api documentation in readme
 
 ### v0.7.0
+
 #### Added
+
 - expose method to bump version
 
 #### Removed
+
 - node v16 support
 
 ### v0.6.1
+
 #### Fixed
+
 - write newline to end of package file
 
 ### v0.6.0
+
 #### Added
+
 - cli option to commit changes to git without tag
 
 ### v0.5.0
+
 #### Added
+
 - cli option to commit changes to git and tag new commit
 
 ### v0.4.0
+
 #### Added
+
 - cli option for raw output
 
 ### v0.3.0
+
 #### Added
+
 - show current version when calling versionize without arguments
 
 #### Changed
+
 - give feedback about current version, too
 - small ui changes
 - refactoring
@@ -146,11 +164,13 @@ bumpVersion('stable', { tag: true })
 ### v0.2.0
 
 #### Added
+
 - give feedback about new version
 
 ### v0.1.0
 
 #### Added
+
 - initial version with basic functionality
 
 ---

@@ -1,10 +1,10 @@
-import { test, describe, beforeEach, afterEach } from 'node:test'
 import assert from 'node:assert/strict'
-import fs from 'fs'
-import path from 'path'
+import { execSync } from 'node:child_process'
+import fs from 'node:fs'
+import path from 'node:path'
+import { afterEach, beforeEach, describe, test } from 'node:test'
 import { temporaryDirectory } from 'tempy'
 import { bumpVersion } from '../../src/index.js'
-import { execSync } from 'child_process'
 
 const writeJSON = (dir, filename, content) => {
   fs.writeFileSync(path.join(dir, filename), JSON.stringify(content), {

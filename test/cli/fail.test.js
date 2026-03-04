@@ -1,10 +1,10 @@
-import { test, describe, beforeEach, afterEach } from 'node:test'
 import assert from 'node:assert/strict'
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import { exec } from 'node:child_process'
+import fs from 'node:fs'
+import path from 'node:path'
+import { afterEach, beforeEach, describe, test } from 'node:test'
+import { fileURLToPath } from 'node:url'
 import { temporaryDirectory } from 'tempy'
-import { exec } from 'child_process'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

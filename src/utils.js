@@ -1,9 +1,10 @@
-import fs from 'fs'
-import path from 'path'
-import { packageDirectorySync } from 'package-directory'
+import { execSync } from 'node:child_process'
+import fs from 'node:fs'
+import path from 'node:path'
+import process from 'node:process'
 import chalk from 'chalk'
+import { packageDirectorySync } from 'package-directory'
 import semver from 'semver'
-import { execSync } from 'child_process'
 
 export const releaseTypes = ['latest', 'stable', 'hotfix']
 
@@ -21,38 +22,49 @@ export const error = (e) => {
 }
 
 export const readFromPackageFile = (src) => {
-  if (!fs.existsSync(src)) return null
+  if (!fs.existsSync(src)) {
+    return null
+  }
 
   const content = fs.readFileSync(src, { encoding: 'utf-8' })
   return JSON.parse(content)
 }
 
 export const writeToPackageFile = (src, data) => {
-  const content = JSON.stringify(data, null, 2) + '\n'
+  const content = `${JSON.stringify(data, null, 2)}\n`
 
   fs.writeFileSync(src, content, { encoding: 'utf-8' })
 }
 
 export const sanitizeVersions = (versions) => {
-  if (!versions.pkg) throw Error('Could not read version from package.json')
+  if (!versions.pkg) {
+    throw new Error('Could not read version from package.json')
+  }
 
-  if (!semver.valid(versions.pkg))
-    throw Error('Version in package.json invalid')
+  if (!semver.valid(versions.pkg)) {
+    throw new Error('Version in package.json invalid')
+  }
 
-  if (!versions.mft) versions.mft = versions.pkg
+  if (!versions.mft) {
+    versions.mft = versions.pkg
+  }
 
-  if (!semver.valid(versions.mft))
-    throw Error('Version in manifest.json invalid')
+  if (!semver.valid(versions.mft)) {
+    throw new Error('Version in manifest.json invalid')
+  }
 
-  if (versions.mft === versions.pkg) return
+  if (versions.mft === versions.pkg) {
+    return
+  }
 
   if (
-    semver.lt(versions.pkg, versions.mft) &&
-    semver.lt(versions.mft, semver.inc(versions.pkg, 'minor'))
-  )
+    semver.lt(versions.pkg, versions.mft)
+    && semver.lt(versions.mft, semver.inc(versions.pkg, 'minor'))
+  ) {
     return
+  }
 
-  throw Error('Versions in package.json and manifest.json are inconsistent')
+  throw new Error('Versions in package.json and manifest.json are inconsistent')
 }
 
 export const incrementVersions = (versions, releaseType) => {
@@ -71,12 +83,14 @@ export const incrementVersions = (versions, releaseType) => {
     return { pkg: versions.pkg, mft: result }
   }
   /* c8 ignore next */
-  throw Error('Invalid release type') // this should never happen
+  throw new Error('Invalid release type') // this should never happen
 }
 
 const readPackagesAndVersions = ({ cwd } = {}) => {
   const dir = packageDirectorySync({ cwd })
-  if (!dir) throw Error('Not in package directory')
+  if (!dir) {
+    throw new Error('Not in package directory')
+  }
 
   const paths = {
     pkg: path.join(dir, 'package.json'),
@@ -88,7 +102,9 @@ const readPackagesAndVersions = ({ cwd } = {}) => {
     mft: readFromPackageFile(paths.mft) || {}
   }
   /* c8 ignore next */
-  if (!data.pkg) throw Error('package.json not found') // this should never happen
+  if (!data.pkg) {
+    throw new Error('package.json not found')
+  } // this should never happen
 
   const versions = {
     pkg: data.pkg.version,
@@ -111,8 +127,9 @@ const writePackagesAndVersions = ({ versions, paths, data }) => {
 const execGit = (args = [], { cwd }) => {
   try {
     execSync(`git ${args.join(' ')}`, { stdio: 'ignore', cwd })
-  } catch (e) {
-    throw Error('Git execution failed')
+  }
+  catch {
+    throw new Error('Git execution failed')
   }
 }
 

@@ -1,7 +1,7 @@
-import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
+import { after, before, test } from 'node:test'
 import { temporaryDirectory } from 'tempy'
 import { writeToPackageFile } from '../../src/utils.js'
 

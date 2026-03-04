@@ -1,7 +1,7 @@
-import { test, describe, beforeEach, afterEach } from 'node:test'
 import assert from 'node:assert/strict'
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
+import { afterEach, beforeEach, describe, test } from 'node:test'
 import { temporaryDirectory } from 'tempy'
 import { bumpVersion } from '../../src/index.js'
 
@@ -31,7 +31,8 @@ describe('Failing API calls', () => {
     try {
       bumpVersion(null, { cwd: CWD })
       assert.fail('should throw error')
-    } catch (e) {
+    }
+    catch (e) {
       assert.equal(e.message, 'Invalid release type', 'with expected message')
     }
   })
@@ -43,7 +44,8 @@ describe('Failing API calls', () => {
     try {
       bumpVersion('latest', { cwd: CWD })
       assert.fail('should throw error')
-    } catch (e) {
+    }
+    catch (e) {
       assert.equal(
         e.message,
         'Versions in package.json and manifest.json are inconsistent',
@@ -59,7 +61,8 @@ describe('Failing API calls', () => {
     try {
       bumpVersion('latest', { commit: true, cwd: CWD })
       assert.fail('should throw error')
-    } catch (e) {
+    }
+    catch (e) {
       assert.equal(
         e.message,
         'Versions in package.json and manifest.json are inconsistent',
@@ -75,7 +78,8 @@ describe('Failing API calls', () => {
     try {
       bumpVersion('latest', { commit: true, cwd: CWD })
       assert.fail('should throw error')
-    } catch (e) {
+    }
+    catch (e) {
       assert.equal(e.message, 'Git execution failed', 'with expected message')
     }
   })
@@ -87,7 +91,8 @@ describe('Failing API calls', () => {
     try {
       bumpVersion('latest', { tag: true, cwd: CWD })
       assert.fail('should throw error')
-    } catch (e) {
+    }
+    catch (e) {
       assert.equal(
         e.message,
         'Versions in package.json and manifest.json are inconsistent',
@@ -103,7 +108,8 @@ describe('Failing API calls', () => {
     try {
       bumpVersion('latest', { tag: true, cwd: CWD })
       assert.fail('should throw error')
-    } catch (e) {
+    }
+    catch (e) {
       assert.equal(e.message, 'Git execution failed', 'with expected message')
     }
   })

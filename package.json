@@ -1,19 +1,24 @@
 {
   "name": "@uscreen.de/versionize",
-  "version": "0.8.2",
-  "description": "opinionated package versioner",
-  "main": "src/index.js",
   "type": "module",
+  "version": "0.8.2",
+  "packageManager": "pnpm@10.20.0+sha512.cf9998222162dd85864d0a8102e7892e7ba4ceadebbf5a31f9c2fce48dfce317a9c53b9f6464d1ef9042cba2e02ae02a9f7c143a2b438cd93c91840f0192b9dd",
+  "description": "opinionated package versioner",
+  "author": "Martin Herting <herting@uscreen.de>",
+  "license": "MIT",
   "homepage": "https://github.com/uscreen/versionize",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/uscreen/versionize.git"
   },
+  "main": "src/index.js",
   "bin": {
     "versionize": "./bin/cli.js"
   },
-  "author": "Martin Herting <herting@uscreen.de>",
-  "license": "MIT",
+  "files": [
+    "bin/",
+    "src/"
+  ],
   "engines": {
     "node": ">=20"
   },
@@ -25,22 +30,17 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
-  "files": [
-    "bin/",
-    "src/"
-  ],
-  "devDependencies": {
-    "@antfu/eslint-config": "^7.6.1",
-    "c8": "^11.0.0",
-    "eslint": "^9.39.3",
-    "eslint-plugin-format": "^1.5.0",
-    "tempy": "^3.1.0"
-  },
   "dependencies": {
     "chalk": "^5.6.2",
     "commander": "^14.0.2",
     "package-directory": "^8.1.0",
     "semver": "^7.7.3"
   },
-  "packageManager": "pnpm@10.20.0+sha512.cf9998222162dd85864d0a8102e7892e7ba4ceadebbf5a31f9c2fce48dfce317a9c53b9f6464d1ef9042cba2e02ae02a9f7c143a2b438cd93c91840f0192b9dd"
+  "devDependencies": {
+    "@antfu/eslint-config": "^7.6.1",
+    "c8": "^11.0.0",
+    "eslint": "^9.39.3",
+    "eslint-plugin-format": "^1.5.0",
+    "tempy": "^3.1.0"
+  }
 }

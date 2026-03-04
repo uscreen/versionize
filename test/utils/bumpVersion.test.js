@@ -1,7 +1,7 @@
-import { test, describe, beforeEach, afterEach } from 'node:test'
 import assert from 'node:assert/strict'
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
+import { afterEach, beforeEach, describe, test } from 'node:test'
 import { temporaryDirectory } from 'tempy'
 import { bumpVersion } from '../../src/utils.js'
 
@@ -36,7 +36,8 @@ describe('Bump version', () => {
     let error = null
     try {
       bumpVersion('stable', { cwd: CWD })
-    } catch (e) {
+    }
+    catch (e) {
       error = e
     }
 
@@ -57,7 +58,8 @@ describe('Bump version', () => {
     let error = null
     try {
       bumpVersion('stable', { cwd: CWD })
-    } catch (e) {
+    }
+    catch (e) {
       error = e
     }
 
@@ -81,7 +83,8 @@ describe('Bump version', () => {
     let error = null
     try {
       bumpVersion('stable', { cwd: CWD })
-    } catch (e) {
+    }
+    catch (e) {
       error = e
     }
 
@@ -105,7 +108,8 @@ describe('Bump version', () => {
     let error = null
     try {
       bumpVersion('stable', { cwd: CWD })
-    } catch (e) {
+    }
+    catch (e) {
       error = e
     }
 
@@ -129,7 +133,8 @@ describe('Bump version', () => {
     let error = null
     try {
       bumpVersion('stable', { cwd: CWD })
-    } catch (e) {
+    }
+    catch (e) {
       error = e
     }
 
