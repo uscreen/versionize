@@ -46,17 +46,21 @@ git config --global user.name "Your Name"
 ## Linting
 
 ```bash
-# ESLint is available but has no dedicated script -- run directly:
-npx eslint src/ bin/ test/
+pnpm lint          # check for lint errors
+pnpm lint:fix      # auto-fix lint errors
 ```
 
-ESLint config extends `@uscreen.de/eslint-config-prettystandard-node`, which
-combines `eslint-config-standard` + `eslint-plugin-prettier`. There are no
-project-level rule overrides.
+ESLint config uses `@antfu/eslint-config` with formatters enabled. Project-level
+rule overrides in `eslint.config.js`:
+- `style/comma-dangle`: no trailing commas
+- `curly`: multi-line / consistent
+- `antfu/top-level-function`: off (arrow functions used everywhere)
+- `no-console`: off
+- `test/no-import-node-test`: off
 
 ## Code Style
 
-### Formatting (enforced by ESLint + Prettier)
+### Formatting (enforced by ESLint + Prettier via @antfu/eslint-config)
 
 - **No semicolons**
 - **Single quotes** for strings
@@ -65,11 +69,20 @@ project-level rule overrides.
 - **Bracket spacing** in object literals: `{ foo: bar }`
 - **Trailing newline** in every file
 - **LF line endings**
+- **Brace style:** `else` / `catch` on a new line after the closing brace:
+  ```js
+  if (condition) {
+    // ...
+  }
+  else {
+    // ...
+  }
+  ```
 
 ### Module System
 
 - **ESM only** (`"type": "module"` in package.json)
-- Node built-ins use bare specifiers: `import fs from 'fs'`
+- Node built-ins use the `node:` prefix: `import fs from 'node:fs'`
 - Local imports always include the `.js` extension: `from './utils.js'`
 - Only exception: `bin/cli.js` uses `createRequire` to import `package.json`
   (JSON import workaround)
@@ -91,7 +104,7 @@ project-level rule overrides.
 
 ### Error Handling
 
-- **`throw Error('message')`** -- without `new` keyword
+- **`throw new Error('message')`** -- with `new` keyword
 - **CLI layer** catches all errors and calls `process.exit(e.code || 1)`
 - **API/library layer** throws errors directly; callers handle them
 - **Two-tier try/catch in CLI:** inner catch for git (non-fatal warning),
@@ -114,8 +127,8 @@ Native **Node.js test runner** (`node:test`), not Jest/Mocha/tap.
 ### Test File Structure
 
 ```js
-import { test, describe, beforeEach, afterEach } from 'node:test'
 import assert from 'node:assert/strict'
+import { afterEach, beforeEach, describe, test } from 'node:test'
 ```
 
 - Group related tests in `describe()` blocks with descriptive strings
@@ -129,8 +142,8 @@ import assert from 'node:assert/strict'
 - **Setup/Teardown:** `beforeEach` creates temp dir + writes fixture JSON files;
   `afterEach` removes temp dir with `fs.rmSync(CWD, { recursive: true })`
 - **Assertions:** Use `node:assert/strict` -- primarily `assert.equal()`,
-  `assert.match()`, `assert.throws()`
-- **Assertion messages:** Always provide a third argument describing what's checked:
+  `assert.match()`, `assert.ok()`, `assert.throws()`
+- **Assertion messages:** Always provide a descriptive message argument:
   `assert.equal(result.newVersion, '0.4.0-3', 'returns correct new version')`
 - **CLI tests:** Spawn `node bin/cli.js` via `child_process.exec`, capture
   `{code, error, stdout, stderr}`
@@ -162,4 +175,4 @@ Coverage is uploaded to Coveralls. Dependabot PRs auto-merge after tests pass.
 ## Dependencies
 
 Runtime: `chalk`, `commander`, `package-directory`, `semver`
-Dev: `@uscreen.de/eslint-config-prettystandard-node`, `c8`, `tempy`
+Dev: `@antfu/eslint-config`, `c8`, `eslint`, `eslint-plugin-format`, `tempy`
