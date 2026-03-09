@@ -98,6 +98,15 @@ const working = [
   ['0.1.1', '0.1.1', 'hotfix', '0.1.2', '0.1.2'],
   ['0.1.1', '0.2.0-0', 'hotfix', '0.1.2', '0.1.2'],
 
+  // increment version by 'major' on multiple consistent version sets:
+  ['0.0.0', null, 'major', '1.0.0', '1.0.0'],
+  ['0.0.0', '0.0.0', 'major', '1.0.0', '1.0.0'],
+  ['0.0.0', '0.1.0-0', 'major', '1.0.0', '1.0.0'],
+  ['0.1.0', '0.1.0', 'major', '1.0.0', '1.0.0'],
+  ['0.1.0', '0.2.0-0', 'major', '1.0.0', '1.0.0'],
+  ['0.1.1', '0.1.1', 'major', '1.0.0', '1.0.0'],
+  ['0.1.1', '0.2.0-0', 'major', '1.0.0', '1.0.0'],
+
   // increment version by 'patch' on multiple consistent version sets:
   ['0.0.0', null, 'patch', '0.0.1', '0.0.1'],
   ['0.0.0', '0.0.0', 'patch', '0.0.1', '0.0.1'],
@@ -108,6 +117,8 @@ const working = [
   ['0.1.1', '0.2.0-0', 'patch', '0.1.2', '0.1.2'],
 
   // increment version on some minimally inconsistent version sets:
+  ['0.1.0', '0.1.1-0', 'major', '1.0.0', '1.0.0'],
+  ['0.1.0', '0.1.1-1', 'major', '1.0.0', '1.0.0'],
   ['0.1.0', '0.1.1-0', 'latest', '0.1.0', '0.1.1-1'],
   ['0.1.0', '0.1.1-1', 'latest', '0.1.0', '0.1.1-2'],
   ['0.1.0', '0.1.1-0', 'stable', '0.2.0', '0.2.0'],
@@ -122,6 +133,7 @@ const working = [
 
 // increment version on more inconsistent version sets:
 const conflicts = [
+  [null, '0.0.0', 'major', 'Could not read version from package.json'],
   [null, '0.0.0', 'latest', 'Could not read version from package.json'],
   [null, '0.0.0', 'stable', 'Could not read version from package.json'],
   [null, '0.0.0', 'minor', 'Could not read version from package.json'],

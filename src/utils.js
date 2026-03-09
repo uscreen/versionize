@@ -6,7 +6,7 @@ import chalk from 'chalk'
 import { packageDirectorySync } from 'package-directory'
 import semver from 'semver'
 
-export const releaseTypes = ['latest', 'stable', 'minor', 'hotfix', 'patch']
+export const releaseTypes = ['major', 'minor', 'stable', 'patch', 'hotfix', 'latest']
 
 export const info = (message) => {
   console.log(`${chalk.blue('info')} ${message}`)
@@ -68,6 +68,10 @@ export const sanitizeVersions = (versions) => {
 }
 
 export const incrementVersions = (versions, releaseType) => {
+  if (releaseType === 'major') {
+    const result = semver.inc(versions.pkg, 'major')
+    return { pkg: result, mft: result }
+  }
   if (releaseType === 'stable' || releaseType === 'minor') {
     const result = semver.inc(versions.pkg, 'minor')
     return { pkg: result, mft: result }
