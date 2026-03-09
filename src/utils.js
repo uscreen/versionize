@@ -105,7 +105,7 @@ const readPackagesAndVersions = ({ cwd } = {}) => {
     pkg: readFromPackageFile(paths.pkg),
     mft: readFromPackageFile(paths.mft) || {}
   }
-  /* c8 ignore next */
+  /* c8 ignore next 3 */
   if (!data.pkg) {
     throw new Error('package.json not found')
   } // this should never happen
