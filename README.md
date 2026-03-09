@@ -100,6 +100,12 @@ bumpVersion('stable', { tag: true })
 
 > Format according to https://keepachangelog.com
 
+### v0.9.0
+
+### Added
+
+- semver-compatible release types ("major", "minor", "patch")
+
 ### v0.8.0
 
 #### Changed
