@@ -128,6 +128,54 @@ describe('Succeeding API calls', () => {
     assert.equal(tagsBuffer.toString(), 'v0.4.0\n', 'has set correct git tag')
   })
 
+  test(`bumpVersion('minor')`, async () => {
+    const result = bumpVersion('minor', { cwd: CWD })
+    assert.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
+    assert.equal(result.newVersion, '0.4.0', 'returns correct new version')
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.4.0', 'does increment version in package.json')
+    assert.equal(mft.version, '0.4.0', 'does increment version in manifest.json')
+  })
+
+  test(`bumpVersion('minor', { commit: true })`, async () => {
+    const result = bumpVersion('minor', { cwd: CWD, commit: true })
+    assert.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
+    assert.equal(result.newVersion, '0.4.0', 'returns correct new version')
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.4.0', 'does increment version in package.json')
+    assert.equal(mft.version, '0.4.0', 'does increment version in manifest.json')
+
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    assert.equal(commitBuffer.toString(), 'v0.4.0\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    assert.equal(tagsBuffer.toString(), '', 'has not set git tag')
+  })
+
+  test(`bumpVersion('minor', { tag: true })`, async () => {
+    const result = bumpVersion('minor', { cwd: CWD, tag: true })
+    assert.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
+    assert.equal(result.newVersion, '0.4.0', 'returns correct new version')
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.4.0', 'does increment version in package.json')
+    assert.equal(mft.version, '0.4.0', 'does increment version in manifest.json')
+
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    assert.equal(commitBuffer.toString(), 'v0.4.0\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    assert.equal(tagsBuffer.toString(), 'v0.4.0\n', 'has set correct git tag')
+  })
+
   test(`bumpVersion('hotfix')`, async () => {
     const result = bumpVersion('hotfix', { cwd: CWD })
     assert.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
@@ -160,6 +208,54 @@ describe('Succeeding API calls', () => {
 
   test(`bumpVersion('hotfix', { tag: true })`, async () => {
     const result = bumpVersion('hotfix', { cwd: CWD, tag: true })
+    assert.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
+    assert.equal(result.newVersion, '0.3.1', 'returns correct new version')
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.3.1', 'does increment version in package.json')
+    assert.equal(mft.version, '0.3.1', 'does increment version in manifest.json')
+
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    assert.equal(commitBuffer.toString(), 'v0.3.1\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    assert.equal(tagsBuffer.toString(), 'v0.3.1\n', 'has set correct git tag')
+  })
+
+  test(`bumpVersion('patch')`, async () => {
+    const result = bumpVersion('patch', { cwd: CWD })
+    assert.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
+    assert.equal(result.newVersion, '0.3.1', 'returns correct new version')
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.3.1', 'does increment version in package.json')
+    assert.equal(mft.version, '0.3.1', 'does increment version in manifest.json')
+  })
+
+  test(`bumpVersion('patch', { commit: true })`, async () => {
+    const result = bumpVersion('patch', { cwd: CWD, commit: true })
+    assert.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
+    assert.equal(result.newVersion, '0.3.1', 'returns correct new version')
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.3.1', 'does increment version in package.json')
+    assert.equal(mft.version, '0.3.1', 'does increment version in manifest.json')
+
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    assert.equal(commitBuffer.toString(), 'v0.3.1\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    assert.equal(tagsBuffer.toString(), '', 'has not set git tag')
+  })
+
+  test(`bumpVersion('patch', { tag: true })`, async () => {
+    const result = bumpVersion('patch', { cwd: CWD, tag: true })
     assert.equal(result.currentVersion, '0.4.0-2', 'returns correct current version')
     assert.equal(result.newVersion, '0.3.1', 'returns correct new version')
 

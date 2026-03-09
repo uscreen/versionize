@@ -80,6 +80,15 @@ const working = [
   ['0.1.1', '0.1.1', 'stable', '0.2.0', '0.2.0'],
   ['0.1.1', '0.2.0-0', 'stable', '0.2.0', '0.2.0'],
 
+  // increment version by 'minor' on multiple consistent version sets:
+  ['0.0.0', null, 'minor', '0.1.0', '0.1.0'],
+  ['0.0.0', '0.0.0', 'minor', '0.1.0', '0.1.0'],
+  ['0.0.0', '0.1.0-0', 'minor', '0.1.0', '0.1.0'],
+  ['0.1.0', '0.1.0', 'minor', '0.2.0', '0.2.0'],
+  ['0.1.0', '0.2.0-0', 'minor', '0.2.0', '0.2.0'],
+  ['0.1.1', '0.1.1', 'minor', '0.2.0', '0.2.0'],
+  ['0.1.1', '0.2.0-0', 'minor', '0.2.0', '0.2.0'],
+
   // increment version by 'hotfix' on multiple consistent version sets:
   ['0.0.0', null, 'hotfix', '0.0.1', '0.0.1'],
   ['0.0.0', '0.0.0', 'hotfix', '0.0.1', '0.0.1'],
@@ -89,20 +98,35 @@ const working = [
   ['0.1.1', '0.1.1', 'hotfix', '0.1.2', '0.1.2'],
   ['0.1.1', '0.2.0-0', 'hotfix', '0.1.2', '0.1.2'],
 
+  // increment version by 'patch' on multiple consistent version sets:
+  ['0.0.0', null, 'patch', '0.0.1', '0.0.1'],
+  ['0.0.0', '0.0.0', 'patch', '0.0.1', '0.0.1'],
+  ['0.0.0', '0.1.0-0', 'patch', '0.0.1', '0.0.1'],
+  ['0.1.0', '0.1.0', 'patch', '0.1.1', '0.1.1'],
+  ['0.1.0', '0.2.0-0', 'patch', '0.1.1', '0.1.1'],
+  ['0.1.1', '0.1.1', 'patch', '0.1.2', '0.1.2'],
+  ['0.1.1', '0.2.0-0', 'patch', '0.1.2', '0.1.2'],
+
   // increment version on some minimally inconsistent version sets:
   ['0.1.0', '0.1.1-0', 'latest', '0.1.0', '0.1.1-1'],
   ['0.1.0', '0.1.1-1', 'latest', '0.1.0', '0.1.1-2'],
   ['0.1.0', '0.1.1-0', 'stable', '0.2.0', '0.2.0'],
   ['0.1.0', '0.1.1-1', 'stable', '0.2.0', '0.2.0'],
+  ['0.1.0', '0.1.1-0', 'minor', '0.2.0', '0.2.0'],
+  ['0.1.0', '0.1.1-1', 'minor', '0.2.0', '0.2.0'],
   ['0.1.0', '0.1.1-0', 'hotfix', '0.1.1', '0.1.1'],
-  ['0.1.0', '0.1.1-1', 'hotfix', '0.1.1', '0.1.1']
+  ['0.1.0', '0.1.1-1', 'hotfix', '0.1.1', '0.1.1'],
+  ['0.1.0', '0.1.1-0', 'patch', '0.1.1', '0.1.1'],
+  ['0.1.0', '0.1.1-1', 'patch', '0.1.1', '0.1.1']
 ]
 
 // increment version on more inconsistent version sets:
 const conflicts = [
   [null, '0.0.0', 'latest', 'Could not read version from package.json'],
   [null, '0.0.0', 'stable', 'Could not read version from package.json'],
+  [null, '0.0.0', 'minor', 'Could not read version from package.json'],
   [null, '0.0.0', 'hotfix', 'Could not read version from package.json'],
+  [null, '0.0.0', 'patch', 'Could not read version from package.json'],
 
   ['notvalid', '0.0.0', 'latest', 'Version in package.json invalid'],
   ['notvalid', '0.0.0', 'stable', 'Version in package.json invalid'],

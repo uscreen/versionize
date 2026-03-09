@@ -227,6 +227,82 @@ describe('Succeeding CLI calls', () => {
     assert.equal(tagsBuffer.toString(), 'v0.4.0\n', 'has set correct git tag')
   })
 
+  test('$ versionize minor', async () => {
+    const result = await cli(['minor'], CWD)
+    assert.equal(result.code, 0, 'code 0')
+    assert.equal(result.stderr, '', 'no stderr')
+    assert.equal(
+      result.stdout,
+      'info Current version is 0.4.0-2\ninfo New version is 0.4.0\n',
+      'expected stdout'
+    )
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.4.0', 'does increment version in package.json')
+    assert.equal(mft.version, '0.4.0', 'does increment version in manifest.json')
+  })
+
+  test('$ versionize minor --raw', async () => {
+    const result = await cli(['minor', '--raw'], CWD)
+    assert.equal(result.code, 0, 'code 0')
+    assert.equal(result.stderr, '', 'no stderr')
+    assert.equal(result.stdout, '0.4.0\n', 'expected stdout')
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.4.0', 'does increment version in package.json')
+    assert.equal(mft.version, '0.4.0', 'does increment version in manifest.json')
+  })
+
+  test('$ versionize minor --commit', async () => {
+    const result = await cli(['minor', '--commit'], CWD)
+    assert.equal(result.code, 0, 'code 0')
+    assert.equal(result.stderr, '', 'no stderr')
+    assert.equal(
+      result.stdout,
+      'info Current version is 0.4.0-2\ninfo New version is 0.4.0\n',
+      'expected stdout'
+    )
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.4.0', 'does increment version in package.json')
+    assert.equal(mft.version, '0.4.0', 'does increment version in manifest.json')
+
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    assert.equal(commitBuffer.toString(), 'v0.4.0\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    assert.equal(tagsBuffer.toString(), '', 'has not set git tag')
+  })
+
+  test('$ versionize minor --tag', async () => {
+    const result = await cli(['minor', '--tag'], CWD)
+    assert.equal(result.code, 0, 'code 0')
+    assert.equal(result.stderr, '', 'no stderr')
+    assert.equal(
+      result.stdout,
+      'info Current version is 0.4.0-2\ninfo New version is 0.4.0\n',
+      'expected stdout'
+    )
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.4.0', 'does increment version in package.json')
+    assert.equal(mft.version, '0.4.0', 'does increment version in manifest.json')
+
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    assert.equal(commitBuffer.toString(), 'v0.4.0\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    assert.equal(tagsBuffer.toString(), 'v0.4.0\n', 'has set correct git tag')
+  })
+
   test('$ versionize hotfix', async () => {
     const result = await cli(['hotfix'], CWD)
     assert.equal(result.code, 0, 'code 0')
@@ -282,6 +358,82 @@ describe('Succeeding CLI calls', () => {
 
   test('$ versionize hotfix --tag', async () => {
     const result = await cli(['hotfix', '--tag'], CWD)
+    assert.equal(result.code, 0, 'code 0')
+    assert.equal(result.stderr, '', 'no stderr')
+    assert.equal(
+      result.stdout,
+      'info Current version is 0.4.0-2\ninfo New version is 0.3.1\n',
+      'expected stdout'
+    )
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.3.1', 'does increment version in package.json')
+    assert.equal(mft.version, '0.3.1', 'does increment version in manifest.json')
+
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    assert.equal(commitBuffer.toString(), 'v0.3.1\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    assert.equal(tagsBuffer.toString(), 'v0.3.1\n', 'has set correct git tag')
+  })
+
+  test('$ versionize patch', async () => {
+    const result = await cli(['patch'], CWD)
+    assert.equal(result.code, 0, 'code 0')
+    assert.equal(result.stderr, '', 'no stderr')
+    assert.equal(
+      result.stdout,
+      'info Current version is 0.4.0-2\ninfo New version is 0.3.1\n',
+      'expected stdout'
+    )
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.3.1', 'does increment version in package.json')
+    assert.equal(mft.version, '0.3.1', 'does increment version in manifest.json')
+  })
+
+  test('$ versionize patch --raw', async () => {
+    const result = await cli(['patch', '--raw'], CWD)
+    assert.equal(result.code, 0, 'code 0')
+    assert.equal(result.stderr, '', 'no stderr')
+    assert.equal(result.stdout, '0.3.1\n', 'expected stdout')
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.3.1', 'does increment version in package.json')
+    assert.equal(mft.version, '0.3.1', 'does increment version in manifest.json')
+  })
+
+  test('$ versionize patch --commit', async () => {
+    const result = await cli(['patch', '--commit'], CWD)
+    assert.equal(result.code, 0, 'code 0')
+    assert.equal(result.stderr, '', 'no stderr')
+    assert.equal(
+      result.stdout,
+      'info Current version is 0.4.0-2\ninfo New version is 0.3.1\n',
+      'expected stdout'
+    )
+
+    const pkg = readJSON(CWD, 'package.json')
+    const mft = readJSON(CWD, 'manifest.json')
+
+    assert.equal(pkg.version, '0.3.1', 'does increment version in package.json')
+    assert.equal(mft.version, '0.3.1', 'does increment version in manifest.json')
+
+    const commitBuffer = execSync('git log -1 --pretty=%B | cat', { cwd: CWD })
+    assert.equal(commitBuffer.toString(), 'v0.3.1\n\n', 'has committed changes')
+
+    const tagsBuffer = execSync('git tag', { cwd: CWD })
+    assert.equal(tagsBuffer.toString(), '', 'has not set git tag')
+  })
+
+  test('$ versionize patch --tag', async () => {
+    const result = await cli(['patch', '--tag'], CWD)
     assert.equal(result.code, 0, 'code 0')
     assert.equal(result.stderr, '', 'no stderr')
     assert.equal(
