@@ -15,6 +15,7 @@ export default antfu({
     'style/comma-dangle': ['error', 'never'],
     'curly': ['error', 'multi-line', 'consistent'],
     'antfu/top-level-function': 'off',
+    'antfu/reasonable-newline': 'off',
     'no-console': 'off',
     'test/no-import-node-test': 'off'
   }

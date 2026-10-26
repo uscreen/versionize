@@ -55,6 +55,7 @@ rule overrides in `eslint.config.js`:
 - `style/comma-dangle`: no trailing commas
 - `curly`: multi-line / consistent
 - `antfu/top-level-function`: off (arrow functions used everywhere)
+- `antfu/reasonable-newline`: off
 - `no-console`: off
 - `test/no-import-node-test`: off
 
