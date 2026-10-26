@@ -170,7 +170,7 @@ test/
 
 ## CI
 
-GitHub Actions runs on push/PR to `main`, testing Node.js `[20, 22, 24]`.
+GitHub Actions runs on push/PR to `main`, testing Node.js `[22, 24]`.
 Coverage is uploaded to Coveralls. Dependabot PRs auto-merge after tests pass.
 
 ## Dependencies
